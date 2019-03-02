@@ -189,5 +189,5 @@ ozpolls <- polls_2010 %>%
   summarise(intended_vote = sum(intended_vote)) %>%
   ungroup()
 
-save(ozpolls, file = "data/ozpolls.rda")
+save(ozpolls, file = "pkg/data/ozpolls.rda")
 

@@ -7,6 +7,8 @@ library(pscl)
 library(scales)
 library(extrafont)
 library(Cairo)
+library(devtools)
+library(knitr)
 
 run_all_r_scripts("R", cleanup = FALSE)
 
@@ -29,3 +31,4 @@ source("prep/collect_polls.R")
 
 # Fit model (takes 20 minutes so beware)
 source("model-2pp/model-2pp.R")
+
