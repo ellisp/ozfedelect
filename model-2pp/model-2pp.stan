@@ -2,8 +2,9 @@
 
 
 data {
-  int election_days[5];                   // days on which first, second, third,fourth and fifth elections occur
-  real election_results[4];                 // value at first, second, third and fourth actual election results
+  int number_elections;
+  int election_days[number_elections];                   // days on which  elections occur
+  real election_results[number_elections - 1];           // historical election results
   real inflator;                      // amount by which to multiply the standard error of polls
   
   // note - pollsters are individually hard coded in to avoid having to use some kind of ragged array:
@@ -58,8 +59,8 @@ data {
 }
 
 parameters {
-  vector<lower=0,upper=1>[election_days[5]] mu;         // 
-  real d[11];                      // polling effects
+  vector<lower=0,upper=1>[election_days[number_elections]] mu;         // 
+  real d[9];                      // polling effects
   real<lower=0> sigma;            // sd of innovations
 }
 
@@ -72,11 +73,11 @@ model {
   
   
   // state model
-  mu[2:election_days[5]] ~ student_t(4, mu[1:(election_days[5] - 1)], sigma);
+  mu[2:election_days[number_elections]] ~ student_t(4, mu[1:(election_days[number_elections] - 1)], sigma);
 
   // measurement model
-  // 1. 4 x historical election results
-  for(i in 1:4){
+  // 1. historical election results
+  for(i in 1:(number_elections - 1)){
     election_results[i] ~ normal(mu[election_days[i]], 0.0001);  
   }
   

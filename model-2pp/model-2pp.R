@@ -46,6 +46,7 @@ one_pollster <- lapply(all_firms, function(x){
 })
 
 model_data <- list(
+  number_elections = 5,
   election_days = election_days,
   election_results = election_results,
   
