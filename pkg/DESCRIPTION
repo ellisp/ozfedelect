@@ -1,13 +1,13 @@
 Package: ozfedelect
-Title: What the Package Does (One Line, Title Case)
+Title: Australian Federal Polling and Election Data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Peter",
+           family = "Ellis",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
-License: What license it uses
+           email = "peter.ellis2013nz@gmail.com")
+Description: Polling and election data for the Australian Federal elections.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
