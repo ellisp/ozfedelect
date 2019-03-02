@@ -1,5 +1,7 @@
 library(tidyverse)
 library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = 7)
 
 first_election <- as.Date("2007-11-24")
 next_election <- as.Date("2019-10-15")
@@ -18,14 +20,14 @@ sample_sizes <- sample_sizes  %>%
   mutate(ss = ifelse(is.na(ss), min(sample_sizes$ss, na.rm = TRUE), ss))
 
 all_firms <- ozpolls %>%
-  filter(firm != "Election result") %>%
+  filter(!firm %in% c("Lonergan", "Election result")) %>%
   pull(firm) %>%
   unique() %>%
   as.character()
 
 data_2pp <- ozpolls %>%
   filter(preference_type == "Two-party-preferred" & party == "ALP") %>%
-  mutate(n_days = as.numeric(mid_date) - as.numeric(first_election) + 1,
+  mutate(n_days = round(as.numeric(mid_date) - as.numeric(first_election) + 1),
          intended_vote = intended_vote / 100) %>%
   filter(n_days >= 1) %>%
   select(n_days, firm, intended_vote) %>%
@@ -86,18 +88,13 @@ model_data <- list(
   
   y8_values = one_pollster[[8]]$intended_vote,
   y8_days = one_pollster[[8]]$n_days,
-  y8_n = nrow(one_pollster[[]]),
+  y8_n = nrow(one_pollster[[8]]),
   y8_se = one_pollster[[8]]$se[1],
   
   y9_values = one_pollster[[9]]$intended_vote,
   y9_days = one_pollster[[9]]$n_days,
   y9_n = nrow(one_pollster[[9]]),
-  y9_se = one_pollster[[9]]$se[1],
-  
-  y10_values = one_pollster[[10]]$intended_vote,
-  y10_days = one_pollster[[10]]$n_days,
-  y10_n = nrow(one_pollster[[10]]),
-  y10_se = one_pollster[[10]]$se[1]
+  y9_se = one_pollster[[9]]$se[1]
   )
 
 model_2pp <- stan(file = 'model-2pp/model-2pp.stan', data = model_data, chains = 4, 

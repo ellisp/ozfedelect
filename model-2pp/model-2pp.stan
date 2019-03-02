@@ -53,10 +53,6 @@ data {
   int y9_days[y9_n];                     
   real y9_se;
 
-  int y10_n;
-  real y10_values[y10_n];       
-  int y10_days[y10_n];                     
-  real y10_se;
 
 
 }
@@ -95,6 +91,6 @@ model {
   y7_values ~ normal(mu[y7_days]   + d[7],  y7_se * inflator);
   y8_values ~ normal(mu[y8_days]   + d[8],  y8_se * inflator);
   y9_values ~ normal(mu[y9_days]   + d[9],  y9_se * inflator);
-  y10_values ~ normal(mu[y10_days] + d[10], y10_se * inflator);
+  
   
 }
