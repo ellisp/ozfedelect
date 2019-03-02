@@ -35,7 +35,7 @@ tab2 <- tab2[-1, ] %>%
   mutate(firm = "Roy Morgan")
 
 
-polls_2010 <- tab1 %>%
+ozpolls_2010 <- tab1 %>%
   rbind(tab2) %>%
   mutate(wiki_row = paste0("r", 1:n())) %>%
   gather(variable, intended_vote, -dates, -firm, -wiki_row) %>%
@@ -48,7 +48,7 @@ polls_2010 <- tab1 %>%
          end_date = if_else(original_dates == "2007 Election", last_election_date, end_date),
          firm = if_else(original_dates == "2007 Election", "Election result", firm))
 
-stopifnot(sum(is.na(polls_2010$start_date)) == 0 )
+stopifnot(sum(is.na(ozpolls_2010$start_date)) == 0 )
 
 #--------------2013 election-----------------
 url = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2013_Australian_federal_election"
@@ -71,7 +71,7 @@ tab <- html_table(tabs[[2]], fill = TRUE)
 
 names(tab) <- tab_names
 
-polls_2013 <- tab %>%
+ozpolls_2013 <- tab %>%
   as_tibble() %>%
   mutate(wiki_row = paste0("r", 1:n())) %>%
   select(-starts_with("x")) %>%
@@ -87,7 +87,7 @@ polls_2013 <- tab %>%
   mutate(firm = gsub("\\[.+\\]", "", firm),
          firm = str_squish(firm))
 
-stopifnot(sum(is.na(polls_2013$start_date)) == 0 )
+stopifnot(sum(is.na(ozpolls_2013$start_date)) == 0 )
 
 
 #-----------------2016-------------
@@ -113,7 +113,7 @@ tab <- html_table(tabs[[3]], fill = TRUE)
 
 names(tab) <- tab_names
 
-polls_2016 <- tab %>%
+ozpolls_2016 <- tab %>%
   as_tibble() %>%
   mutate(wiki_row = paste0("r", 1:n())) %>%
   select(-starts_with("x")) %>%
@@ -131,7 +131,7 @@ polls_2016 <- tab %>%
          firm = gsub("\\(.+\\)", "", firm),
          firm = str_squish(firm))
 
-stopifnot(sum(is.na(polls_2016$start_date)) == 0 )
+stopifnot(sum(is.na(ozpolls_2016$start_date)) == 0 )
 
 #-----------------2019-------------
 url <- "https://en.wikipedia.org/wiki/National_opinion_polling_for_the_2019_Australian_federal_election"
@@ -155,7 +155,7 @@ tab <- html_table(tabs[[2]], fill = TRUE)
 
 names(tab) <- tab_names
 
-polls_2019 <- tab %>%
+ozpolls_2019 <- tab %>%
   as_tibble() %>%
   mutate(wiki_row = paste0("r", 1:n())) %>%
   select(-starts_with("x")) %>%
@@ -172,14 +172,14 @@ polls_2019 <- tab %>%
          firm = gsub("\\(.+\\)", "", firm),
          firm = str_squish(firm))
 
-stopifnot(sum(is.na(polls_2019$start_date)) == 0 )
+stopifnot(sum(is.na(ozpolls_2019$start_date)) == 0 )
 
 #----------------Combine-----------------
 
-ozpolls <- polls_2010 %>%
-  rbind(polls_2013) %>%
-  rbind(select(polls_2016, -sample_size, -margin_of_error, -method)) %>%
-  rbind(polls_2019) %>%
+ozpolls <- ozpolls_2010 %>%
+  rbind(ozpolls_2013) %>%
+  rbind(select(ozpolls_2016, -sample_size, -margin_of_error, -method)) %>%
+  rbind(ozpolls_2019) %>%
   mutate(firm = str_squish(gsub("\\(.+\\)", "", firm)),
          firm = ifelse(firm == "Morgan", "Roy Morgan", firm),
          firm = ifelse(firm == "ReachTel", "ReachTEL", firm)) %>%
@@ -190,4 +190,8 @@ ozpolls <- polls_2010 %>%
   ungroup()
 
 save(ozpolls, file = "pkg/data/ozpolls.rda")
+
+# Two of the data frames have reasons for independent existence (see helpfile for why):
+save(ozpolls_2016, file = "pkg/data/ozpolls_2016.rda")
+save(ozpolls_2010, file = "pkg/data/ozpolls_2010.rda")
 

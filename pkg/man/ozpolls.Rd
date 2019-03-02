@@ -9,5 +9,6 @@
 Various polling firms, collected on Wikipedia and scraped by Peter Ellis
 }
 \description{
-Poll and election results for first preference and two-party-preferred
+Poll and election results for first preference and two-party-preferred voting intention for the 
+Australian House of Representatives, 2007 to 2019
 }

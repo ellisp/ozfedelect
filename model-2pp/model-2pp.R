@@ -7,10 +7,14 @@ options(mc.cores = 7)
 #--------------Data preparation-------------------
 first_election <- as.Date("2007-11-24")
 next_election <- as.Date("2019-10-15")
+firms_today <- ozpolls %>%
+  filter(election_year == 2019) %>%
+  distinct(firm) %>%
+  pull(firm)
 
 # We don't have sample sizes except in the build up to 2016, so we'll just get
 # the average sample size for firms from them and assume that's what they stick to:
-sample_sizes <- polls_2016 %>%
+sample_sizes <- ozpolls_2016 %>%
   mutate(firm = str_squish(gsub("\\(.+\\)", "", firm)),
          firm = ifelse(firm == "Morgan", "Roy Morgan", firm),
          firm = ifelse(firm == "ReachTel", "ReachTEL", firm)) %>%
@@ -26,7 +30,7 @@ sample_sizes <- sample_sizes  %>%
 
 all_firms <- ozpolls %>%
   filter(!firm %in% c("Election result") &
-           firm %in% unique(polls_2019$firm)) %>%
+           firm %in% firms_today) %>%
   pull(firm) %>%
   unique() %>%
   as.character()
