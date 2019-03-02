@@ -1,4 +1,9 @@
 library(roxygen2)
 library(devtools)
 
-document("pkg")
+document("ozfedelect")
+
+build("ozfedelect")
+
+system("Rcmd.exe INSTALL --no-multiarch --with-keep.source pkg")
+
