@@ -37,3 +37,5 @@ rsconnect/
 .Rproj.user
 
 *.rda
+*.rds
+*.svg
