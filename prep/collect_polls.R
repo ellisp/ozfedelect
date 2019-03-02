@@ -1,5 +1,3 @@
-library(rvest)
-library(tidyverse)
 
 #--------------2010 election-----------------
 url = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2010_Australian_federal_election"

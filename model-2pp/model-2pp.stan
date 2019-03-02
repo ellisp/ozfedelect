@@ -44,23 +44,11 @@ data {
   int y7_days[y7_n];                     
   real y7_se;
 
-  int y8_n;
-  real y8_values[y8_n];       
-  int y8_days[y8_n];                     
-  real y8_se;
-
-  int y9_n;
-  real y9_values[y9_n];       
-  int y9_days[y9_n];                     
-  real y9_se;
-
-
-
 }
 
 parameters {
   vector<lower=0,upper=1>[election_days[number_elections]] mu;         // 
-  real d[9];                      // polling effects
+  real d[7];                      // polling effects
   real<lower=0> sigma;            // sd of innovations
 }
 
@@ -90,8 +78,5 @@ model {
   y5_values ~ normal(mu[y5_days]   + d[5],  y5_se * inflator);
   y6_values ~ normal(mu[y6_days]   + d[6],  y6_se * inflator);
   y7_values ~ normal(mu[y7_days]   + d[7],  y7_se * inflator);
-  y8_values ~ normal(mu[y8_days]   + d[8],  y8_se * inflator);
-  y9_values ~ normal(mu[y9_days]   + d[9],  y9_se * inflator);
-  
   
 }
