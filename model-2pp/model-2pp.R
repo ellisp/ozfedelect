@@ -52,52 +52,52 @@ model_data <- list(
   y1_values = one_pollster[[1]]$intended_vote,
   y1_days = one_pollster[[1]]$n_days,
   y1_n = nrow(one_pollster[[1]]),
-  y1_se = one_pollster[[1]]$n_days,
+  y1_se = one_pollster[[1]]$se[1],
   
   y2_values = one_pollster[[2]]$intended_vote,
   y2_days = one_pollster[[2]]$n_days,
   y2_n = nrow(one_pollster[[2]]),
-  y2_se = one_pollster[[2]]$n_days,
+  y2_se = one_pollster[[2]]$se[1],
   
   y3_values = one_pollster[[3]]$intended_vote,
   y3_days = one_pollster[[3]]$n_days,
   y3_n = nrow(one_pollster[[3]]),
-  y3_se = one_pollster[[3]]$n_days,
+  y3_se = one_pollster[[3]]$se[1],
   
   y4_values = one_pollster[[4]]$intended_vote,
   y4_days = one_pollster[[4]]$n_days,
   y4_n = nrow(one_pollster[[4]]),
-  y4_se = one_pollster[[4]]$n_days,
+  y4_se = one_pollster[[4]]$se[1],
   
   y5_values = one_pollster[[5]]$intended_vote,
   y5_days = one_pollster[[5]]$n_days,
   y5_n = nrow(one_pollster[[5]]),
-  y5_se = one_pollster[[5]]$n_days,
+  y5_se = one_pollster[[5]]$se[1],
   
   y6_values = one_pollster[[6]]$intended_vote,
   y6_days = one_pollster[[6]]$n_days,
   y6_n = nrow(one_pollster[[6]]),
-  y6_se = one_pollster[[6]]$n_days,
+  y6_se = one_pollster[[6]]$se[1],
   
   y7_values = one_pollster[[7]]$intended_vote,
   y7_days = one_pollster[[7]]$n_days,
   y7_n = nrow(one_pollster[[7]]),
-  y7_se = one_pollster[[7]]$n_days,
+  y7_se = one_pollster[[7]]$se[1],
   
   y8_values = one_pollster[[8]]$intended_vote,
   y8_days = one_pollster[[8]]$n_days,
   y8_n = nrow(one_pollster[[]]),
-  y8_se = one_pollster[[8]]$n_days,
+  y8_se = one_pollster[[8]]$se[1],
   
   y9_values = one_pollster[[9]]$intended_vote,
   y9_days = one_pollster[[9]]$n_days,
   y9_n = nrow(one_pollster[[9]]),
-  y9_se = one_pollster[[9]]$n_days,
+  y9_se = one_pollster[[9]]$se[1],
   
   y10_values = one_pollster[[10]]$intended_vote,
   y10_days = one_pollster[[10]]$n_days,
   y10_n = nrow(one_pollster[[10]]),
-  y10_se = one_pollster[[10]]$n_days
+  y10_se = one_pollster[[10]]$se[1]
   )
 
 model_2pp <- stan(file = 'model-2pp/model-2pp.stan', data = model_data, chains = 4, 

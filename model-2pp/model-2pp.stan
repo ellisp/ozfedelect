@@ -11,52 +11,52 @@ data {
   int y1_n;                              // number of polls conducted by pollster 1
   real y1_values[y1_n];       // actual values in polls for pollster 1
   int y1_days[y1_n];                     // the number of days since first election each poll was taken
-  real y1_se[n_parties];                 // the standard error for each party from pollster 1 (note sometimes made up)
+  real y1_se;                 // the standard error for each party from pollster 1 (note sometimes made up)
   
   int y2_n;
   real y2_values[y2_n];       
   int y2_days[y2_n];                     
-  real y2_se[n_parties];
+  real y2_se;
   
   int y3_n;
   real y3_values[y3_n];       
   int y3_days[y3_n];                     
-  real y3_se[n_parties];
+  real y3_se;
   
   int y4_n;
   real y4_values[y4_n];       
   int y4_days[y4_n];                     
-  real y4_se[n_parties];
+  real y4_se;
   
   int y5_n;
   real y5_values[y5_n];       
   int y5_days[y5_n];                     
-  real y5_se[n_parties];
+  real y5_se;
 
   int y6_n;
   real y6_values[y6_n];       
   int y6_days[y6_n];                     
-  real y6_se[n_parties];
+  real y6_se;
   
   int y7_n;
   real y7_values[y7_n];       
   int y7_days[y7_n];                     
-  real y7_se[n_parties];
+  real y7_se;
 
   int y8_n;
   real y8_values[y8_n];       
   int y8_days[y8_n];                     
-  real y8_se[n_parties];
+  real y8_se;
 
   int y9_n;
   real y9_values[y9_n];       
   int y9_days[y9_n];                     
-  real y9_se[n_parties];
+  real y9_se;
 
   int y10_n;
   real y10_values[y10_n];       
   int y10_days[y10_n];                     
-  real y10_se[n_parties];
+  real y10_se;
 
 
 }
@@ -76,7 +76,7 @@ model {
   
   
   // state model
-  mu[2:n_days] ~ student_t(4, mu[1:(election_days[5] - 1)], sigma);
+  mu[2:election_days[5]] ~ student_t(4, mu[1:(election_days[5] - 1)], sigma);
 
   // measurement model
   // 1. 4 x historical election results
