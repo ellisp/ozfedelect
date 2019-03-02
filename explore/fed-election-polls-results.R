@@ -1,3 +1,20 @@
+library(pscl)
+library(scales)
+library(tidyverse)
+
+filter(ozpolls, intended_vote > 60) 
+
+p <- ozpolls %>%
+  filter(preference_type != "First preference") %>%
+  ggplot(aes(x = mid_date, y = intended_vote)) +
+  facet_wrap(~party) +
+  geom_point(aes(colour = firm)) +
+  geom_smooth(se = FALSE, method = "loess", span = 0.1, colour = "black")
+
+print(p)
+
+
+
 ggplot(AustralianElections, aes(x = ALP2PP / 100, y = ALPSeats / Seats)) +
   geom_abline(slope = 1, intercept = 0, colour = "white") +
   geom_hline(yintercept = 0.5, colour = "steelblue") +

@@ -191,19 +191,5 @@ ozpolls <- polls_2010 %>%
   summarise(intended_vote = sum(intended_vote)) %>%
   ungroup()
 
-save(ozpolls, file = "pkg/data/ozpolls.rda")
-
-
-filter(ozpolls, intended_vote > 60) 
-
-p <- ozpolls %>%
-  filter(preference_type != "First preference") %>%
-  ggplot(aes(x = mid_date, y = intended_vote)) +
-  facet_wrap(~party) +
-  geom_point(aes(colour = firm)) +
-  geom_smooth(se = FALSE, method = "loess", span = 0.1, colour = "black")
-
-print(p)
-library(pscl)
-library(scales)
+save(ozpolls, file = "data/ozpolls.rda")
 
