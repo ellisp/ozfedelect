@@ -47,7 +47,7 @@ data {
 }
 
 parameters {
-  vector<lower=0,upper=1>[election_days[number_elections]] mu;         // 
+  vector[election_days[number_elections]] mu;         // 
   real d[7];                      // polling effects
   real<lower=0> sigma;            // sd of innovations
 }
@@ -56,7 +56,7 @@ parameters {
 model {
   // priors 
   sigma ~ normal(0.001, 0.001);     // prior for innovation sd.  
-  mu[1] ~ beta(2, 2);               // starting state space
+  mu[1] ~ beta(4, 4);               // starting state space
   d ~ normal(0, 0.05); // ie a fairly loose prior for house effects (on scale of [0,1])
   
   
@@ -80,3 +80,4 @@ model {
   y7_values ~ normal(mu[y7_days]   + d[7],  y7_se * inflator);
   
 }
+
