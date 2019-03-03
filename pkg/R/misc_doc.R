@@ -37,3 +37,7 @@ NULL
 #' @format A tibble with 485 rows and 9 variables.
 #' @source Various polling firms, collected on Wikipedia and scraped by Peter Ellis
 NULL
+
+
+
+

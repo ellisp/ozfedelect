@@ -9,6 +9,7 @@ library(extrafont)
 library(Cairo)
 library(devtools)
 library(knitr)
+library(snakecase)
 
 run_all_r_scripts("R", cleanup = FALSE)
 
@@ -28,8 +29,10 @@ update_geom_defaults("text", list(family = main_font))
 
 # Download and clean polling data from Wikipedia:
 source("prep/collect_polls.R")
+source("prep/results-2pp-by-division.R")
 
 # Fit model (takes 20 minutes so beware)
 # source("model-2pp/model-2pp.R")
 
 document("pkg")
+check("pkg")
