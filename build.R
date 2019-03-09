@@ -10,6 +10,7 @@ library(Cairo)
 library(devtools)
 library(knitr)
 library(snakecase)
+library(testthat)
 
 run_all_r_scripts("R", cleanup = FALSE)
 
