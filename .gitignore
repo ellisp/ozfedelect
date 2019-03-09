@@ -36,7 +36,7 @@ vignettes/*.pdf
 rsconnect/
 .Rproj.user
 
-*.rda
+#*.rda
 *.rds
 *.svg
 *.csv
