@@ -22,6 +22,9 @@ read_div_res <- function(url, election_date, incumbent){
              incumbent == "Lib/Nat" ~ liberal_national_coalition_votes
            ))
   
+  names(tmp_2pp_div) <- gsub("australian_labor_party", "alp", names(tmp_2pp_div))
+  names(tmp_2pp_div) <- gsub("liberal_national_coalition", "lib_nat", names(tmp_2pp_div))
+  
   return(tmp_2pp_div)
 }
 
@@ -61,35 +64,35 @@ recent_divs %>%
 # but swing is an actual percentage
 
 divs2001 <- read_csv2("raw-data/2001/data/import/divs.txt") %>%
-  mutate(australian_labor_party_percentage = as.numeric(`ALP TPP Pc`) / 100,
-         liberal_national_coalition_percentage = 100 - australian_labor_party_percentage,
+  mutate(alp_percentage = as.numeric(`ALP TPP Pc`) / 100,
+         lib_nat_percentage = 100 - alp_percentage,
          swing_to_govt = -as.numeric(`ALP Swing`)) %>%
   select(division_nm = Division,
          state_ab = State,
-         liberal_national_coalition_votes = `Coalition TPP Vote`,
-         liberal_national_coalition_percentage,
-         australian_labor_party_votes = `ALP TPP Vote`,
-         australian_labor_party_percentage,
+         lib_nat_votes = `Coalition TPP Vote`,
+         lib_nat_percentage,
+         alp_votes = `ALP TPP Vote`,
+         alp_percentage,
          total_votes = `Formal Vote`,
          swing_to_govt
   ) %>%
   mutate(division_id = NA,
          party_ab = NA,
          incumbent = "Lib/Nat",
-         incumbent_votes = liberal_national_coalition_votes,
+         incumbent_votes = lib_nat_votes,
          election_date = "2001-11-10",
          election_year = 2001)
   # I'm not sure the "ALP Swing" here is calculated the same as "swing" in the tally room
 
 expect_equal(
   divs2001 %>%
-    summarise(x = sum(australian_labor_party_votes)) %>%
+    summarise(x = sum(alp_votes)) %>%
     pull(x),
   5627785)
 
 expect_equal(
   divs2001 %>%
-    summarise(x = sum(liberal_national_coalition_votes) / sum(total_votes) * 100)  %>%
+    summarise(x = sum(lib_nat_votes) / sum(total_votes) * 100)  %>%
     pull(x) %>%
     round(2),
   50.95)
@@ -115,23 +118,23 @@ reader <- function(election_date, incumbent){
            incumbent = incumbent)
 }
 
-dates <- c("1998-10-03", "1996-03-02", "1993-03-13")
+dates <- c( "1993-03-13", "1996-03-02","1998-10-03")
 incumbents <- c("ALP", "ALP", "Lib/Nat")
 
 old_divs <- lapply(1:3, function(x){
   reader(dates[x], incumbents[x])
 }) %>%
   do.call("rbind", .) %>%
-  mutate(australian_labor_party_percentage = as.numeric(`ALP TPP Pc`) / 100,
-                             liberal_national_coalition_percentage = 100 - australian_labor_party_percentage,
+  mutate(alp_percentage = as.numeric(`ALP TPP Pc`) / 100,
+                             lib_nat_percentage = 100 - alp_percentage,
                              swing_to_govt = as.numeric(`ALP Swing`) *
            ifelse(incumbent == "ALP", 1, -1)) %>%
   select(division_nm = Division,
          state_ab = State,
-         liberal_national_coalition_votes = `Coalition TPP Vote`,
-         liberal_national_coalition_percentage,
-         australian_labor_party_votes = `ALP TPP Vote`,
-         australian_labor_party_percentage,
+         lib_nat_votes = `Coalition TPP Vote`,
+         lib_nat_percentage,
+         alp_votes = `ALP TPP Vote`,
+         alp_percentage,
          total_votes = `Formal Vote`,
          swing_to_govt,
          incumbent,
@@ -141,8 +144,8 @@ old_divs <- lapply(1:3, function(x){
   mutate(division_id = NA,
          party_ab = NA,
          incumbent_votes = ifelse(incumbent == "ALP",
-                                  australian_labor_party_votes,
-                                  liberal_national_coalition_votes))
+                                  alp_votes,
+                                  lib_nat_votes))
 
  
 

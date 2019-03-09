@@ -30,6 +30,7 @@ update_geom_defaults("text", list(family = main_font))
 
 # Download and clean polling data from Wikipedia:
 source("prep/collect_polls.R")
+source("prep/download-2001-and-earlier.R")
 source("prep/results-2pp-by-division.R")
 
 # Fit model (takes 20 minutes so beware)
