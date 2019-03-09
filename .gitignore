@@ -40,3 +40,7 @@ rsconnect/
 *.rds
 *.svg
 *.csv
+*.zip
+*.pdf
+raw-data/2001/data/*
+*.xls

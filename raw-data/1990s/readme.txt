@@ -1,0 +1,1 @@
+holds results for 1998, 1996 and 1993 elections as downloaded in bulk
