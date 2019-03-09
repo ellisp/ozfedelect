@@ -43,4 +43,5 @@ rsconnect/
 *.zip
 *.pdf
 raw-data/2001/data/*
+raw-data/1990s/data/*
 *.xls
