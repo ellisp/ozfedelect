@@ -7,6 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "peter.ellis2013nz@gmail.com")
 Description: Polling and election data for the Australian Federal elections.
+Depends: R (>= 3.4.0)
 Imports:
   ggplot2,
   dplyr,
