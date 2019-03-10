@@ -121,9 +121,12 @@ st <- system.time({
 })
 print(st)
 
+save(model_2pp, file = "output/model_2pp")
+
 #-------------------------interpretation and presentation-------------------
 
-all_firms
+# Polling firms
+
 d <- as.data.frame(extract(model_2pp, "d")$d)
 names(d) <- all_firms
 pd <- d %>%
@@ -142,6 +145,9 @@ pd <- d %>%
 CairoSVG("output/0145-density-d.svg", 8, 5)
 print(pd)
 dev.off()
+
+
+# latent state space
 
 plot_results <- function(stan_m){
   if(class(stan_m) != "stanfit"){
@@ -175,5 +181,7 @@ plot_results <- function(stan_m){
   return(p)
 }
 
-# plot_results(model_2pp)
+CairoSVG("output/latest-model-results.svg", 8, 6)
+plot_results(model_2pp)
+dev.off()
 
