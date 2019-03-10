@@ -21,33 +21,52 @@ theme_ozpol_map <- function(...){
 #' 
 #' @export
 #' @importFrom scales percent_format
-#' @importFrom dplyr filter left_join %>% mutate
-#' @importFrom grid gpar grid.text grid.newpage grid.rect grid.segments
+#' @importFrom dplyr filter left_join %>% mutate pull
+#' @importFrom grid gpar grid.text grid.newpage grid.rect grid.segments grid.draw
+#' @importFrom cowplot get_legend
 #' @param year Election year - should be one of 2016, 2013 or 2010
 #' @param fontfamily Font family to use
+#' @param variable which variable to use
 #' @details This should be printed to an 8 x 6.5 inch output. Anything else might be a bit wrong... Basically,
 #' this is a bit of a hack for a very specific single purpose. 
 #' 
 #' As a side effect, this function draws a chart that will look good on an 8 x6.5 inch output.
-ozpol_infographic <- function(year, fontfamily = "Sans"){
+ozpol_infographic <- function(year, fontfamily = "sans", variable = c("lib_nat_percentage", "swing_to_govt")){
   
+  variable = match.arg(variable)
+  midpoint <- ifelse(variable == "lib_nat_percentage", 0.5, 0)
+  
+  d1 <- filter(ced_boundaries, election_year == year)
+  d2 <- filter(results_2pp_div, election_year == year)
+  d2$fill_variable <- pull(d2, variable)
+  if(unique(d2$incumbent) == "ALP"){
+    d2$fill_variable <- -d2$fill_variable
+  }
+  d3 <- dplyr::left_join(d1, d2, by = c("ced_name" = "division_nm"))
+    
   m <- list()
   
-  m[[1]] <- ced_boundaries %>%
-    dplyr::filter(election_year == year) %>%
-    dplyr::left_join(dplyr::filter(results_2pp_div, election_year == year), by = c("ced_name" = "division_nm")) %>%
-    ggplot2::ggplot() +
-    ggplot2::geom_sf(ggplot2::aes(fill = lib_nat_percentage / 100), colour = NA) +
-    theme_ozpol_map(base_family = fontfamily) +
-    ggplot2::scale_fill_gradient2(low = "#e53440", mid = "white", high = "#1c4f9c", midpoint = 0.5, 
-                         label = scales::percent_format(accuracy = 1))
-  
+  m[[1]] <- d3 %>%
+    ggplot2::ggplot(ggplot2::aes(fill = fill_variable / 100))  +
+    ggplot2::scale_fill_gradient2(low = "#e53440", mid = "white", high = "#1c4f9c", midpoint = midpoint, 
+                                  label = scales::percent_format(accuracy = 1)) +
+    ggplot2::geom_sf(colour = NA) +
+    theme_ozpol_map(base_family = fontfamily) 
+      
   m[[2]] <- m[[1]] + ggplot2::coord_sf(xlim =c(144.2, 145.7), ylim = c(-37.55, -38.4)) +
     ggplot2::theme(panel.background = ggplot2::element_rect(fill = "grey20"))
   m[[3]] <- m[[1]] + ggplot2::coord_sf(xlim =c(150.6, 151.4), ylim = c(-33.6, -34.2)) 
   m[[4]] <- m[[1]] + ggplot2::coord_sf(xlim =c(152, 154), ylim = c(-26.6, -28.4)) 
   m[[5]] <- m[[1]] + ggplot2::coord_sf(xlim =c(138.4, 138.8), ylim = c(-35.4, -34.7))
   m[[6]] <- m[[1]] + ggplot2::coord_sf(xlim =c(115.4, 116.3), ylim = c(-32.4, -31.7))
+  
+  # how to draw just the legend of a ggplot2 graphic
+  leg_map <- m[[1]] + 
+    labs(fill = "") +
+    theme(legend.position = c(0.2, 0.25),
+          legend.background = element_rect(fill = "grey20"))
+  
+  legend <- cowplot::get_legend(leg_map)
   
   
   dy <- 0.04
@@ -60,10 +79,10 @@ ozpol_infographic <- function(year, fontfamily = "Sans"){
     xend =  c(NA,          0.495,        0.545,        0.56,        0.45,       0.28),
     yend =  c(NA,          0.535,        0.58,        0.64,        0.575,       0.59)
   ) %>%
-    dplyr::mutate(y = y - dy,
-           yend = yend - dy,
-           x = x + dx,
-           xend = xend + dx)
+    dplyr::mutate(y = .$y - dy,
+           yend = .$yend - dy,
+           x = .$x + dx,
+           xend = .$xend + dx)
   
   
   grid::grid.newpage()
@@ -72,7 +91,7 @@ ozpol_infographic <- function(year, fontfamily = "Sans"){
                       x1 = centre_points$xend,
                       y0 = centre_points$y,
                       y1 = centre_points$yend,
-                      gp = grid::gpar(col = "white"))
+                      gp = grid::gpar(col = "grey80"))
   for(i in 1:nrow(centre_points)){
     print(m[[i]], vp = grid::viewport(x = centre_points[i, "x"], 
                                       y = centre_points[i, "y"],
@@ -80,9 +99,18 @@ ozpol_infographic <- function(year, fontfamily = "Sans"){
   }
   # grid.circle(x = centre_points$xend, y = centre_points$yend, r = 0.02, 
   #             gp = gpar(col = "white", fill = "transparent"))
+  
+  heading <- paste0("Two-party-preferred VOTE in the\n", year, " federal election")
+  if(variable == "swing_to_govt"){
+    heading <- gsub("VOTE", "SWING", heading)
+  }
+  
   grid::grid.text(0.03, 0.95, 
-                  label = "Two-party-preferred vote in the\n2016 federal election", 
+                  label = heading, 
                   hjust = 0, vjust = 1,
             gp = grid::gpar(fontfamily = fontfamily, cex = 1.5, col = "white", fontface = "bold"))
+  
+  grid.draw(legend) 
+  
 
 }

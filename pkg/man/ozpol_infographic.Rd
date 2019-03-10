@@ -4,12 +4,15 @@
 \alias{ozpol_infographic}
 \title{Draw an infographic map of Australian election results}
 \usage{
-ozpol_infographic(year, fontfamily = "Sans")
+ozpol_infographic(year, fontfamily = "sans",
+  variable = c("lib_nat_percentage", "swing_to_govt"))
 }
 \arguments{
 \item{year}{Election year - should be one of 2016, 2013 or 2010}
 
 \item{fontfamily}{Font family to use}
+
+\item{variable}{which variable to use}
 }
 \description{
 Draw an infographic map of Australian election results

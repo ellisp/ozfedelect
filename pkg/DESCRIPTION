@@ -10,6 +10,7 @@ Description: Polling and election data for the Australian Federal elections.
 Imports:
   ggplot2,
   dplyr,
+  cowplot,
   scales
 Suggests:
   testthat,

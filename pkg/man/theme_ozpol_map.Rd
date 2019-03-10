@@ -6,6 +6,9 @@
 \usage{
 theme_ozpol_map(...)
 }
+\arguments{
+\item{...}{other parameters to pass to \code{theme_bw}}
+}
 \description{
 Theme for a map of federal divisions
 }

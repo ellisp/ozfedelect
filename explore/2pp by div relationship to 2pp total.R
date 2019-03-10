@@ -71,6 +71,10 @@ CairoSVG("output/2pp-votes.svg", 8, 6.5)
 ozpol_infographic(2016, fontfamily = main_font)
 dev.off()
 
+CairoSVG("output/2pp-swing.svg", 8, 6.5)
+ozpol_infographic(2016, variable = "swing_to_govt")
+dev.off()
+
 
 #--------------Implications for modelling---------------
 model <- lm(swing_to_govt ~ avg_swing, data = d)
