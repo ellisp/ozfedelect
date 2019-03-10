@@ -36,13 +36,13 @@ ozpol_infographic <- function(year, fontfamily = "sans", variable = c("lib_nat_p
   variable = match.arg(variable)
   midpoint <- ifelse(variable == "lib_nat_percentage", 0.5, 0)
   
-  d1 <- filter(ced_boundaries, election_year == year)
+  d1 <- filter(div_boundaries, election_year == year)
   d2 <- filter(results_2pp_div, election_year == year)
   d2$fill_variable <- pull(d2, variable)
   if(unique(d2$incumbent) == "ALP" & variable == "swing_to_govt"){
     d2$fill_variable <- -d2$fill_variable
   }
-  d3 <- dplyr::left_join(d1, d2, by = c("ced_name" = "division_nm"))
+  d3 <- dplyr::left_join(d1, d2, by = "division_nm")
     
   m <- list()
   

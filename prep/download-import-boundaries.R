@@ -43,8 +43,11 @@ for(i in 1:length(sfnames)){
   
 }
 
-ced_boundaries <- do.call("rbind", shapes)
+div_boundaries <- do.call("rbind", shapes)  %>%
+  rename(division_nm = ced_name,
+         division_id = ced_code) %>%
+  mutate(division_id = as.numeric(division_id))
 
-save(ced_boundaries, file = "pkg/data/ced_boundaries.rda")
+save(div_boundaries, file = "pkg/data/div_boundaries.rda")
 
 

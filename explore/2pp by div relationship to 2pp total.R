@@ -1,36 +1,25 @@
-# -7.5 for Aston in 2013 meant a swing against the Labor govt
-# - 10.1 for Bass in 2016 meant a swing against the Lib/Nat govt
 library(ozfedelect)
 library(tidyverse)
 library(scales)
 library(grid)
 library(Cairo)
 
+# Some checks.
+# -7.5 for Aston in 2013 meant a swing against the Labor govt
+# - 10.1 for Bass in 2016 meant a swing against the Lib/Nat govt
 results_2pp_div %>%
   select(division_nm, swing_to_govt, election_year) %>%
   spread(election_year, swing_to_govt)
 
-p1 <- results_2pp_div %>%
-  mutate(year_inc = paste(election_year, incumbent, "\nincumbent")) %>%
-  ggplot(aes(x = swing_to_govt / 100)) +
-  geom_vline(xintercept = 0, colour = "steelblue") +
-  scale_x_continuous("Swing to the incumbent government", label = percent) +
-  geom_density() +
-  geom_rug() +
-  facet_wrap(~year_inc, nrow = 1) +
-  coord_flip()
+#---------------------------explore distribution of swings---------
 
-p1
-p1 + xlim(c(-0.2, 0.2))
+model <- lm(swing_to_govt ~ avg_swing, data = d)
+confint(model)
+coef(model) # of course the slope is 1 and the intercept is 0, basically - by design
+# the interesting thing is actually the residual standard error:
+summary(model)
 
-results_2pp_div  %>%
-  group_by(election_year) %>%
-  mutate(aust_alp_2pp = sum(alp_votes) / sum(total_votes)) %>%
-  ggplot(aes(x = aust_alp_2pp, y = alp_percentage / 100,
-             colour = as.ordered(election_year))) +
-  geom_point() +
-  scale_x_continuous(label = percent_format(accuracy = 1)) +
-  scale_y_continuous(label = percent_format(accuracy = 1))
+residual_sd <- summary(model)$sigma
 
 
 d <- results_2pp_div  %>%
@@ -67,6 +56,8 @@ CairoSVG("output/p7.svg", 13, 9)
 print(p7)
 dev.off()
 
+#--------------------explore spatial aspects of swings---------------------------
+
 CairoSVG("output/2pp-swing-2016.svg", 8, 6.5)
 ozpol_infographic(2016, variable = "swing_to_govt", fontfamily = main_font)
 dev.off()
@@ -91,15 +82,63 @@ CairoSVG("output/2pp-votes-2010.svg", 8, 6.5)
 ozpol_infographic(2010, fontfamily = main_font)
 dev.off()
 
+#----------------------- explore relationship to census variables------------
 
-#--------------Implications for modelling---------------
-model <- lm(swing_to_govt ~ avg_swing, data = d)
-confint(model)
-coef(model) # of course the slope is 1 and the intercept is 0, basically - by design
-# the interesting thing is actually the residual standard error:
-summary(model)
+d1 <- results_2pp_div %>%
+  filter(election_year == 2016) %>%
+  left_join(ced_data_2016, by = "division_nm") %>%
+  select(division_nm, state_ab, lib_nat_percentage, swing_to_govt, young_persons:only_english_spoken_home) %>%
+  mutate(state_ab = fct_relevel(state_ab, "NSW"))
 
-residual_sd <- summary(model)$sigma
+d2 <- d1 %>%
+  gather(variable, value, -division_nm, -lib_nat_percentage, -swing_to_govt, -state_ab)
+
+
+p8 <- d2 %>%
+  ggplot(aes(x = value, y = lib_nat_percentage / 100)) +
+  facet_wrap(~variable, scale = "free_x") +
+  scale_y_continuous("Two-party-preferred vote for Liberal/National Coalition") +
+  geom_smooth(method = "gam") +
+  geom_point(aes(colour = state_ab)) +
+  ggtitle("Vote compared to census variables by electoral division",
+          "2016 federal election") +
+  labs(colour = "",x = "")
+
+p9 <- d2 %>%
+  ggplot(aes(x = value, y = swing_to_govt / 100)) +
+  facet_wrap(~variable, scale = "free_x") +
+  scale_y_continuous("Two-party-preferred swing towards Liberal/National Coalition (incumbent government)") +
+  geom_smooth(method = "gam") +
+  geom_point(aes(colour = state_ab)) +
+  ggtitle("Swing compared to census variables by electoral division",
+          "2016 federal election") +
+  labs(colour = "",x = "")
+
+d3 <- d1 %>%
+  select( -division_nm, - lib_nat_percentage) %>%
+  mutate_at(vars(young_persons:only_english_spoken_home), scale)
+
+mod1 <- lm(I(swing_to_govt / 100) ~ ., data = d3)
+
+confint(mod1)[-1, ] %>%
+  as.data.frame() %>%
+  mutate(var = rownames(.),
+         var = gsub("state_ab", "", var),
+         var = gsub("_", " ", var)) %>%
+  rename(lower = `2.5 %`,
+         upper = `97.5 %`) %>%
+  mutate(mid = (lower + upper) / 2,
+         var = fct_reorder(var, mid)) %>%
+  ggplot(aes(x = lower, xend = upper, y = var, yend = var)) +
+  geom_vline(xintercept = 0, colour = "steelblue") +
+  geom_segment(size = 3, colour = "grey") +
+  scale_x_continuous("Impact of change in one standard deviation in census variable on swing",
+                     label = percent) +
+  labs(y = "", 
+       caption = "Source: ABS Census data, AES election results, analysis by http://freerangestats.info") +
+  ggtitle("Division-level variables related to a swing to the Liberal-National Coalition",
+          "Comparing the 2016 results to 2013 by electoral division (or 'seat').
+Conclusions about individual characteristics relating to vote should be drawn only with great caution.")
 
 
 #==============crude simulation===============

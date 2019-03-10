@@ -26,20 +26,21 @@ d5 <- CED__MaxSchoolingCompleted %>%
                                                                                       "Year 8", "Year 9")]) / 
               sum(adults))
 
-d6 <-  CED__medianTotalPersonalIncome
+d6 <-  CED__medianTotalPersonalIncome %>%
+  rename(median_total_personal_income = medianTotalPersonalIncome)
 
 d7 <- CED__OnlyEnglishSpokenHome %>%
   group_by(CED_NAME16) %>%
   summarise(only_english_spoken_home = sum(persons[OnlyEnglishSpokenHome]) / sum(persons))
 
-ced_data_2016 <- d1 %>%
+div_census_2016 <- d1 %>%
   left_join(d2, by = "CED_NAME16") %>%
   left_join(d3, by = "CED_NAME16") %>%
   left_join(d4, by = "CED_NAME16") %>%
   left_join(d5, by = "CED_NAME16") %>%
   left_join(d6, by = "CED_NAME16") %>%
   left_join(d7, by = "CED_NAME16") %>%
-  rename(ced_name = CED_NAME16)
+  rename(division_nm = CED_NAME16)
 
 
-save(ced_data_2016, file = "pkg/data/ced_data_2016.rda")
+save(div_census_2016, file = "pkg/data/div_census_2016.rda")

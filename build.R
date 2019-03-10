@@ -28,6 +28,9 @@ theme_set(theme_light(base_family = main_font) +
 ) 
 update_geom_defaults("text", list(family = main_font))
 
+
+#=====================Building package====================
+
 # Download and clean polling data from Wikipedia:
 source("prep/collect_polls.R")
 source("prep/download-2001-and-earlier.R")
