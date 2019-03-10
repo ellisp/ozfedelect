@@ -1,12 +1,12 @@
 #----------------set up----------------
-# Note: ./build.R needs to have been run first
+source("setup.R")
 rstan_options(auto_write = TRUE)
 options(mc.cores = 7)
 
 
 #--------------Data preparation-------------------
 first_election <- as.Date("2007-11-24")
-next_election <- as.Date("2019-10-15")
+next_election <- as.Date("2019-05-23")
 firms_today <- ozpolls %>%
   filter(election_year == 2019) %>%
   distinct(firm) %>%
@@ -175,4 +175,5 @@ plot_results <- function(stan_m){
   return(p)
 }
 
+# plot_results(model_2pp)
 
