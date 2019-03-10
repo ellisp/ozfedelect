@@ -189,9 +189,9 @@ ozpolls <- ozpolls_2010 %>%
   summarise(intended_vote = sum(intended_vote)) %>%
   ungroup()
 
-save(ozpolls, file = "pkg/data/ozpolls.rda")
+save(ozpolls, file = "pkg/data/ozpolls.rda", compress = "xz")
 
 # Two of the data frames have reasons for independent existence (see helpfile for why):
-save(ozpolls_2016, file = "pkg/data/ozpolls_2016.rda")
-save(ozpolls_2010, file = "pkg/data/ozpolls_2010.rda")
+save(ozpolls_2016, file = "pkg/data/ozpolls_2016.rda", compress = "xz")
+save(ozpolls_2010, file = "pkg/data/ozpolls_2010.rda", compress = "xz")
 

@@ -48,6 +48,6 @@ div_boundaries <- do.call("rbind", shapes)  %>%
          division_id = ced_code) %>%
   mutate(division_id = as.numeric(division_id))
 
-save(div_boundaries, file = "pkg/data/div_boundaries.rda")
+save(div_boundaries, file = "pkg/data/div_boundaries.rda", compress = "xz")
 
 

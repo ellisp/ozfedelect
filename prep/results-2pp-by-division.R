@@ -164,5 +164,5 @@ expect_equal(
   c(147, 148, 148, rep(150, 6))
 )
 
-save(results_2pp_div, file = "pkg/data/results_2pp_div.rda")
+save(results_2pp_div, file = "pkg/data/results_2pp_div.rda", compress = "xz")
 
