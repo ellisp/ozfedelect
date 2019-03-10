@@ -2,9 +2,9 @@
 # - 10.1 for Bass in 2016 meant a swing against the Lib/Nat govt
 library(ozfedelect)
 library(tidyverse)
-library(tmap)
 library(scales)
 library(grid)
+library(Cairo)
 
 results_2pp_div %>%
   select(division_nm, swing_to_govt, election_year) %>%
@@ -67,12 +67,20 @@ CairoSVG("output/p7.svg", 13, 9)
 print(p7)
 dev.off()
 
-CairoSVG("output/2pp-votes.svg", 8, 6.5)
+CairoSVG("output/2pp-votes-2016.svg", 8, 6.5)
 ozpol_infographic(2016, fontfamily = main_font)
 dev.off()
 
-CairoSVG("output/2pp-swing.svg", 8, 6.5)
-ozpol_infographic(2016, variable = "swing_to_govt")
+CairoSVG("output/2pp-swing-2016.svg", 8, 6.5)
+ozpol_infographic(2016, variable = "swing_to_govt", fontfamily = main_font)
+dev.off()
+
+CairoSVG("output/2pp-swing-2013.svg", 8, 6.5)
+ozpol_infographic(2013, variable = "swing_to_govt", fontfamily = main_font)
+dev.off()
+
+CairoSVG("output/2pp-votes-2013.svg", 8, 6.5)
+ozpol_infographic(2013, fontfamily = main_font)
 dev.off()
 
 

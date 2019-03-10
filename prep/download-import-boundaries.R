@@ -1,6 +1,6 @@
 library(sf)
 library(rmapshaper)
-library(tmap)
+
 
 shapefiles <- c(
   "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055003_ced_2018_aust_shp.zip&1270.0.55.003&Data%20Cubes&BF4D23C712D492CFCA2582F600180556&0&July%202018&28.08.2018&Latest",
@@ -28,10 +28,18 @@ for(i in 1:length(sfnames)){
     rename_all(tolower) %>%
     rename_all(function(x){gsub("[0-9]+", "", x)})
   
+  # crop the map so all of them have the same bounding box
+  tmp <- st_crop(tmp, 
+                 xmin = 96.816941,
+                 ymin = -43.740510,
+                 xmax = 159.109219,
+                 ymax = -9.142176)
+
   names(tmp) <- gsub("areasqkm", "area_sqkm", names(tmp))
   names(tmp) <- gsub("^sqkm$", "area_sqkm", names(tmp))
   
-  shapes[[i]] <- ms_simplify(tmp, keep = 0.2)
+  # simplify to 10% of the size
+  shapes[[i]] <- ms_simplify(tmp, keep = 0.1)
   
 }
 

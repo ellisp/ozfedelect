@@ -39,7 +39,7 @@ ozpol_infographic <- function(year, fontfamily = "sans", variable = c("lib_nat_p
   d1 <- filter(ced_boundaries, election_year == year)
   d2 <- filter(results_2pp_div, election_year == year)
   d2$fill_variable <- pull(d2, variable)
-  if(unique(d2$incumbent) == "ALP"){
+  if(unique(d2$incumbent) == "ALP" & variable == "swing_to_govt"){
     d2$fill_variable <- -d2$fill_variable
   }
   d3 <- dplyr::left_join(d1, d2, by = c("ced_name" = "division_nm"))
@@ -73,11 +73,11 @@ ozpol_infographic <- function(year, fontfamily = "sans", variable = c("lib_nat_p
   dx <- 0.04
   centre_points <- data.frame(
     city =  c("Australia", "Melbourne", "Sydney", "Brisbane", "Adelaide", "Perth"),
-    x =     c(0.4,          0.65,        0.745,       0.719,        0.4,       0.11),
-    y =     c(0.65,         0.275,       0.56,       0.85,       0.275,      0.6),
-    width = c(0.63,         0.3,        0.28,       0.23,        0.12,       0.25),
-    xend =  c(NA,          0.495,        0.545,        0.56,        0.45,       0.28),
-    yend =  c(NA,          0.535,        0.58,        0.64,        0.575,       0.59)
+    x =     c(0.39,          0.7,        0.795,       0.769,        0.45,       0.10),
+    y =     c(0.65,         0.256,       0.557,       0.869,       0.257,      0.6),
+    width = c(0.63,         0.31,        0.29,       0.24,        0.12,       0.26),
+    xend =  c(NA,          0.543,        0.595,        0.61,        0.485,       0.29),
+    yend =  c(NA,          0.517,        0.557,        0.635,        0.554,       0.58)
   ) %>%
     dplyr::mutate(y = .$y - dy,
            yend = .$yend - dy,
@@ -97,9 +97,9 @@ ozpol_infographic <- function(year, fontfamily = "sans", variable = c("lib_nat_p
                                       y = centre_points[i, "y"],
                                       width = centre_points[i, "width"]))
   }
-  # grid.circle(x = centre_points$xend, y = centre_points$yend, r = 0.02, 
+  # grid.circle(x = centre_points$xend, y = centre_points$yend, r = 0.02,
   #             gp = gpar(col = "white", fill = "transparent"))
-  
+
   heading <- paste0("Two-party-preferred VOTE in the\n", year, " federal election")
   if(variable == "swing_to_govt"){
     heading <- gsub("VOTE", "SWING", heading)
