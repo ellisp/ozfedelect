@@ -1,5 +1,10 @@
 # -7.5 for Aston in 2013 meant a swing against the Labor govt
 # - 10.1 for Bass in 2016 meant a swing against the Lib/Nat govt
+library(ozfedelect)
+library(tidyverse)
+library(tmap)
+library(scales)
+library(grid)
 
 results_2pp_div %>%
   select(division_nm, swing_to_govt, election_year) %>%
@@ -37,30 +42,37 @@ d <- results_2pp_div  %>%
   
 avgs <- distinct(d, avg_swing, year, incumbent)
 
-update_geom_defaults("label", list(family = main_font, fill = "white", colour = "grey10", alpha = 0.8))
+annotation_col <- "grey50"
+update_geom_defaults("label", list(family = main_font, fill = "white", colour = annotation_col, alpha = 0.8))
 
 p7 <- d %>%
   ggplot(aes(x = avg_swing / 100, y = swing_to_govt / 100)) +
   geom_smooth(se = FALSE, method = "lm") +
-  geom_vline(xintercept = 0, colour = "grey20") +
-  geom_hline(yintercept = 0, colour = "grey20") +
+  geom_vline(xintercept = 0, colour = annotation_col) +
+  geom_hline(yintercept = 0, colour = annotation_col) +
   geom_point(aes(colour = incumbent)) +
   geom_text(data = avgs, y = -0.18, aes(label = year, colour = incumbent)) +
   labs(caption = "Source: Australian Electoral Commission data, analysed by freerangestats.info.") +
   scale_x_continuous("Overall swing towards incumbent government", label = percent_format(accuracy = 1)) +
   scale_y_continuous("Division level swings to government", label = percent_format(accuracy = 1)) +
   annotate("label", x = -0.053, y = 0.06, label = "Strongly change\ngovernment") +
-  annotate("label", x = -0.046, y = -0.065, label = "Narrow escape for\nHoward in 1998") +
-  annotate("label", x = -0.028, y = -0.1, label = "Near ties for Gillard and\nTurnbull in 2010 and\n2016 respectively") +
+  annotate("label", x = -0.045, y = -0.065, label = "Narrow escape for\nHoward in 1998") +
   annotate("label", x = 0.0055, y = 0.04, label = "Strongly retain\ngovernment") +
-  scale_colour_manual("Incumbent government:", values = c("ALP" = "red", "Lib/Nat" = "blue")) +
+  scale_colour_manual("Incumbent government:", 
+                      values = c("ALP" = "#e53440", "Lib/Nat" = "#1c4f9c")) +
   ggtitle("Individual seats face more voting uncertainty than Australia as a whole",
-          "Residual standard deviation of about 3.2 percentage points once the nation-wide swing has been observed")
+          "Each point represents the swing in a single seat; residual standard deviation of about 3.2 percentage points around the nation-wide swing.")
 
 CairoSVG("output/p7.svg", 13, 9)
 print(p7)
 dev.off()
 
+CairoSVG("output/2pp-votes.svg", 8, 6.5)
+ozpol_infographic(2016, fontfamily = main_font)
+dev.off()
+
+
+#--------------Implications for modelling---------------
 model <- lm(swing_to_govt ~ avg_swing, data = d)
 confint(model)
 coef(model) # of course the slope is 1 and the intercept is 0, basically - by design

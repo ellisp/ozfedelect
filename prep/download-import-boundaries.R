@@ -9,7 +9,7 @@ shapefiles <- c(
   "http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055003_ced_2011_aust_shape.zip&1270.0.55.003&Data%20Cubes&AFFAF0F44528F2EFCA2578D40013CA06&0&July%202011&22.07.2011&Previous"
 )
 
-sfnames <- paste0("ced_boundaries_", c(2019, 2016, 2013, 2011))
+sfnames <- paste0("ced_boundaries_", c(2019, 2016, 2013, 2010))
 
 shapes <- list()
 
@@ -37,13 +37,6 @@ for(i in 1:length(sfnames)){
 
 ced_boundaries <- do.call("rbind", shapes)
 
-ced_boundaries %>%
-  filter(election_year == 2019) %>%
-  tm_shape() +
-  tm_borders()
-  
-  
-  
 save(ced_boundaries, file = "pkg/data/ced_boundaries.rda")
 
 
