@@ -74,7 +74,7 @@ ozpol_infographic <- function(year, fontfamily = "sans", variable = c("lib_nat_p
   centre_points <- data.frame(
     city =  c("Australia", "Melbourne", "Sydney", "Brisbane", "Adelaide", "Perth"),
     x =     c(0.39,          0.7,        0.795,       0.769,        0.45,       0.10),
-    y =     c(0.65,         0.256,       0.557,       0.869,       0.257,      0.6),
+    y =     c(0.65,         0.256,       0.557,       0.869,       0.257,      0.58),
     width = c(0.63,         0.31,        0.29,       0.24,        0.12,       0.26),
     xend =  c(NA,          0.543,        0.595,        0.61,        0.485,       0.29),
     yend =  c(NA,          0.517,        0.557,        0.635,        0.554,       0.58)

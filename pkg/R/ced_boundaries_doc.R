@@ -1,7 +1,6 @@
-#' Australian Federal Division Electoral Boundaries
+#' Australian Federal Electoral Division Boundaries
 #' 
-#' Poll and election results for first preference and two-party-preferred voting intention for the 
-#' Australian House of Representatives, 2007 to 2019
+#' Federal electoral division boundaries 2010 to 2019
 #'
 #' @rdname ced_boundaries
 #' @name ced_boundaries
@@ -14,4 +13,18 @@
 #' that was in use in 2010 (which excludes some far western islands that were in the 2016 and later maps),
 #' @format A tibble with simple features geometry
 #' @source Australian Bureau of Statistics
+NULL
+
+
+#' Australian Census by Federal Election Division
+#' 
+#' Selected variables from the 2016 Census by Federal Election division
+#'
+#' @rdname ced_data_2016
+#' @name ced_data_2016
+#' @docType data
+#' @details a single tibble with one row per electoral division and one column per variable of interest.
+#' @format A tibble
+#' @source Australian Bureau of Statistics, via Hugh Parsonage's Census2016.DataPack R package, with minimal 
+#' aggregation done by Peter Ellis for convenience.
 NULL

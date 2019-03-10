@@ -67,12 +67,12 @@ CairoSVG("output/p7.svg", 13, 9)
 print(p7)
 dev.off()
 
-CairoSVG("output/2pp-votes-2016.svg", 8, 6.5)
-ozpol_infographic(2016, fontfamily = main_font)
-dev.off()
-
 CairoSVG("output/2pp-swing-2016.svg", 8, 6.5)
 ozpol_infographic(2016, variable = "swing_to_govt", fontfamily = main_font)
+dev.off()
+
+CairoSVG("output/2pp-votes-2016.svg", 8, 6.5)
+ozpol_infographic(2016, fontfamily = main_font)
 dev.off()
 
 CairoSVG("output/2pp-swing-2013.svg", 8, 6.5)
@@ -81,6 +81,14 @@ dev.off()
 
 CairoSVG("output/2pp-votes-2013.svg", 8, 6.5)
 ozpol_infographic(2013, fontfamily = main_font)
+dev.off()
+
+CairoSVG("output/2pp-swing-2010.svg", 8, 6.5)
+ozpol_infographic(2010, variable = "swing_to_govt", fontfamily = main_font)
+dev.off()
+
+CairoSVG("output/2pp-votes-2010.svg", 8, 6.5)
+ozpol_infographic(2010, fontfamily = main_font)
 dev.off()
 
 
