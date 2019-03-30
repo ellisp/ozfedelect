@@ -195,3 +195,5 @@ save(ozpolls, file = "pkg/data/ozpolls.rda", compress = "xz")
 save(ozpolls_2016, file = "pkg/data/ozpolls_2016.rda", compress = "xz")
 save(ozpolls_2010, file = "pkg/data/ozpolls_2010.rda", compress = "xz")
 
+# This text version is basically so Git can observe changes
+write_csv(ozpolls, path = "comparison-data/ozpolls.csv")
