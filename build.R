@@ -6,7 +6,7 @@ source("setup.R")
 # Download and clean polling data from Wikipedia:
 source("prep/collect_polls.R")
 
-# TODO - need some tests here against earlier versions
+
 
 # More official sources
 source("prep/download-2001-and-earlier.R")

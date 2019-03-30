@@ -187,9 +187,13 @@ ozpolls <- ozpolls_2010 %>%
   mutate(party = ifelse(party %in% c("Lib", "Nat"), "Lib/Nat", party)) %>%
   group_by_if(function(x){!is.numeric(x) | min(x) > 1000}) %>%
   summarise(intended_vote = sum(intended_vote)) %>%
-  ungroup()
+  ungroup() %>%
+  select(-wiki_row)
 
 save(ozpolls, file = "pkg/data/ozpolls.rda", compress = "xz")
+
+ozpolls_2016 <- select(ozpolls_2016, -wiki_row)
+ozpolls_2010 <- select(ozpolls_2010, -wiki_row)
 
 # Two of the data frames have reasons for independent existence (see helpfile for why):
 save(ozpolls_2016, file = "pkg/data/ozpolls_2016.rda", compress = "xz")
