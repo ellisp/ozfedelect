@@ -6,6 +6,8 @@ source("setup.R")
 # Download and clean polling data from Wikipedia:
 source("prep/collect_polls.R")
 
+# The divisions and their margins for the 2019 election
+source("prep/download-pendulum-2019.R")
 
 
 # More official sources

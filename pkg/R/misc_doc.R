@@ -39,8 +39,6 @@ NULL
 NULL
 
 
-
-
 #' Australian political party colours
 #' 
 #' @rdname oz_party_cols
@@ -48,4 +46,14 @@ NULL
 #' @docType data
 #' @format A named vector.
 #' @source Party pages and Wikipedia
+NULL
+
+#' Australian federal division margins going in to 2019 election
+#' 
+#' @details The margin by which each seat is held and the party against which that margin is measured.
+#' @rdname oz_pendulum_2019
+#' @name oz_pendulum_2019
+#' @docType data
+#' @format A tibble with 151 rows.
+#' @source https://www.abc.net.au/news/elections/federal-redistribution-2018/
 NULL
