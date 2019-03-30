@@ -41,3 +41,11 @@ NULL
 
 
 
+#' Australian political party colours
+#' 
+#' @rdname oz_party_cols
+#' @name oz_party_cols
+#' @docType data
+#' @format A named vector.
+#' @source Party pages and Wikipedia
+NULL
