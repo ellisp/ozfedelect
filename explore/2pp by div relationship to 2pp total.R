@@ -13,6 +13,13 @@ results_2pp_div %>%
 
 #---------------------------explore distribution of swings---------
 
+d <- results_2pp_div  %>%
+  group_by(election_year, incumbent) %>%
+  mutate(avg_swing = sum(swing_to_govt * total_votes) / sum(total_votes)) %>%
+  ungroup() %>%
+  filter(abs(swing_to_govt) < 20) %>%
+  mutate(year = fct_reorder(as.ordered(election_year), avg_swing))
+
 model <- lm(swing_to_govt ~ avg_swing, data = d)
 confint(model)
 coef(model) # of course the slope is 1 and the intercept is 0, basically - by design
@@ -22,12 +29,7 @@ summary(model)
 residual_sd <- summary(model)$sigma
 
 
-d <- results_2pp_div  %>%
-  group_by(election_year, incumbent) %>%
-  mutate(avg_swing = sum(swing_to_govt * total_votes) / sum(total_votes)) %>%
-  ungroup() %>%
-  filter(abs(swing_to_govt) < 20) %>%
-  mutate(year = fct_reorder(as.ordered(election_year), avg_swing))
+
   
 avgs <- distinct(d, avg_swing, year, incumbent)
 
@@ -156,8 +158,8 @@ last_result <- results_2pp_div %>%
   summarise(alp_2pp_2016 = sum(alp_votes) / sum(total_votes)) %>%
   pull(alp_2pp_2016)
 
-# last election the ALP got 49.6% of the 2pp. Currently on track to about 52 with sd of about 3.
-# So an average swing against the govt of N(2.5, 3), and division-level randomness on top of that.
+# last election the ALP got 49.6% of the 2pp. Currently on track to about 52.48 with sd of about 2.08.
+# So an average swing against the govt of N(2.88, 2.08), and division-level randomness on top of that.
 
 baseline <- results_2pp_div %>%
   filter(election_year == 2016) %>%
@@ -167,7 +169,7 @@ baseline <- results_2pp_div %>%
 nsims <- 1e5
 set.seed(321)
 sims <- tibble(sim = 1:nsims, link = 1) %>%
-  mutate(avg_swing = rnorm(n(), -2.5, 3)) %>%
+  mutate(avg_swing = rnorm(n(), -2.88, 2.08)) %>%
   full_join(baseline, by = "link") %>%
   select(-link) %>%
   mutate(extra_swing = rnorm(n(), 0, residual_sd)) %>%

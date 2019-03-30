@@ -6,7 +6,7 @@ options(mc.cores = 7)
 
 #--------------Data preparation-------------------
 first_election <- as.Date("2007-11-24")
-next_election <- as.Date("2019-05-23")
+next_election <- as.Date("2019-05-18")
 firms_today <- ozpolls %>%
   filter(election_year == 2019) %>%
   distinct(firm) %>%
@@ -181,7 +181,17 @@ plot_results <- function(stan_m){
   return(p)
 }
 
-CairoSVG("output/latest-model-results.svg", 8, 6)
-plot_results(model_2pp)
+p <- plot_results(model_2pp) +
+  ggtitle(paste0("Australian federal voting intention to ", next_election),
+          paste0("As at ", Sys.Date()))
+
+CairoSVG("output/latest-model-results.svg", 8, 5)
+print(p)
 dev.off()
 
+
+mu <- as.data.frame(rstan::extract(model_2pp, "mu"))
+dim(mu)
+election_sims <- mu[ , ncol(mu)]
+mean(election_sims)
+sd(election_sims)
