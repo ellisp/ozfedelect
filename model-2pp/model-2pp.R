@@ -121,5 +121,5 @@ st <- system.time({
 })
 print(st)
 
-save(model_2pp, file = "output/model_2pp.rda")
+save.image(file = "output/model_2pp.rdata")
 

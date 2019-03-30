@@ -47,6 +47,6 @@ raw-data/1990s/data/*
 *.xls
 raw-data/*
 
-output/model_2pp.rda
+output/model_2pp.rdata
 
 !comparison-data/*
