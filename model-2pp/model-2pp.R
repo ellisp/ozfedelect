@@ -121,7 +121,7 @@ st <- system.time({
 })
 print(st)
 
-save(model_2pp, file = "output/model_2pp")
+save(model_2pp, file = "output/model_2pp.rda")
 
 #-------------------------interpretation and presentation-------------------
 
@@ -142,7 +142,7 @@ pd <- d %>%
           "Drawn from a Bayesian state-space model of estimated actual daily voting tendency, 2007 to 2019") +
   labs(caption = "Source: seven polling firms' data collected on Wikipedia; analysis by freerangestats.info.")
 
-CairoSVG("output/0145-density-d.svg", 8, 5)
+CairoSVG("output/latest-polling-firm-density.svg", 8, 5)
 print(pd)
 dev.off()
 
