@@ -12,6 +12,7 @@ library(knitr)
 library(snakecase)
 library(testthat)
 library(ozfedelect)
+library(RColorBrewer)
 
 run_all_r_scripts("R", cleanup = FALSE)
 

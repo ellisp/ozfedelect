@@ -1,6 +1,6 @@
 load("output/model_2pp.rdata")
 
-#-------------------------interpretation and presentation-------------------
+#-------------------------House effects-------------------
 
 # Polling firms
 
@@ -24,7 +24,7 @@ print(pd)
 dev.off()
 
 
-# latent state space
+#------------------two party preferred------------
 
 ex <- as.data.frame(rstan::extract(model_2pp, "mu"))
 names(ex) <- 1:model_data$election_days[5]
@@ -76,6 +76,137 @@ sd(election_sims)
 # individual level swing statndard deviation is 3.2
 # last election was 47.52 ALP 
 
-oz_pendulum_2019
+alp_v_coal <- oz_pendulum_2019[1:142, ] %>%
+  mutate(margin = ifelse(party_against == "ALP", -margin, margin),
+         pos_winner = "ALP",
+         alt_winner = "Lib/Nat", 
+         alp_v_coal = 1) %>%
+  select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
+
+alp_v_other <- oz_pendulum_2019 %>%
+  filter(division %in% c("Wills", "Cooper", "Grayndler", "Clark")) %>%
+  mutate(pos_winner = "ALP",
+         margin = c(4.9, 1.3, 15.8, -17.8),
+         alt_winner = c("Grn", "Grn", "Grn", "Ind"), 
+         alp_v_coal = 0) %>%
+  select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
+
+other_v_coal <- oz_pendulum_2019 %>%
+  filter(division %in% c("Wentworth", "Mayo", "Indi", "Kennedy", "Melbourne")) %>%
+  mutate(coal_margin = margin,
+         pos_winner = ifelse(incumbent %in% c("ALP", "KAP", "NXT"), 
+                             incumbent, 
+                             str_to_sentence(incumbent)),
+         alt_winner = "Lib/Nat", 
+         alp_v_coal = 0) %>%
+  select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
+
+all_divs <- rbind(alp_v_coal, alp_v_other, other_v_coal)
 
 
+n_sims <- 10000
+n_divs <- 151
+
+swing_centre <- tail(mod_results, 1)$middle - 49.64
+swing_sd <-  sd(ex[ , ncol(ex)] * 100)
+
+all_divs_sims <- all_divs[rep(1:n_divs, n_sims), ] %>%
+  mutate(sim_number = rep(1:n_sims, each = n_divs),
+         overall_swing = rep(rnorm(n_sims, swing_centre, swing_sd), each = n_divs),
+         total_swing = rnorm(n_sims * n_divs, 0, 3.2) + alp_v_coal * overall_swing,
+         winner = ifelse((margin + total_swing) > 0, pos_winner, alt_winner))
+
+sim_summary <- all_divs_sims %>%
+  group_by(sim_number, winner) %>%
+  summarise(seats_won = n()) %>%
+  ungroup() %>%
+  complete(sim_number, winner, fill = list(seats_won = 0)) %>%
+  mutate(winner = fct_reorder(winner, -seats_won, .fun = median))
+  
+
+alp_wins <- sim_summary %>%
+  summarise(alp_wins = (mean(seats_won[winner == "ALP"] >= 76) %>%
+                          prod(100) %>%
+                          round(1) %>%
+                          paste0("%"))) %>%
+  pull(alp_wins)
+
+CairoSVG("output/seat-sims.svg", 8, 5)  
+print(sim_summary %>%
+  ggplot(aes(x = seats_won, fill = winner, y=..density..)) +
+  facet_wrap(~winner, scales = "free_y") +
+  geom_histogram(binwidth = 1) +
+  geom_vline(xintercept = 75.5) +
+  scale_fill_manual(values = oz_party_cols) +
+  labs(x = "Seats won",
+       y = "Proportion of simulations", 
+       fill = "") +
+  ggtitle(paste("Forecast seats in the House of Representatives on", next_election),
+          paste0(ci, "\nProbability of ALP winning 76 or more seats: ", alp_wins))
+)
+dev.off()
+
+divs <- all_divs_sims %>%
+  group_by(state, division, winner) %>%
+  summarise(freq = n()) %>%
+  group_by(division) %>%
+  mutate(prop = freq / sum(freq)) %>%
+  select(-freq) %>%
+  mutate(marginality = sqrt((0.5 - prop) ^ 2)) %>%
+  ungroup() %>%
+  mutate(division = fct_reorder(division, marginality, .fun = min)) %>%
+  select(-marginality) %>%
+  spread(winner, prop, fill = 0) %>%
+  gather(winner, prop, -state, -division) %>%
+  mutate(winner = fct_reorder(winner, -prop))
+  
+all_states <- unique(divs$state)
+draw_state_heatmap <- function(the_state = "NSW",
+                               height = 9){
+  
+  d <- divs %>%
+    filter(state == the_state) %>%
+    mutate(division = fct_drop(division))
+  
+  p <- d %>%
+    ggplot(aes(x = winner, y = division, fill = prop)) +
+    geom_tile(colour = "white") +
+    geom_segment(aes(y = as.numeric(division) + 0.5, yend = as.numeric(division) + 0.5),
+                 x = 0, xend = Inf, colour = "grey90", size = 0.8) +
+    geom_segment(aes(y = as.numeric(division) - 0.5, yend = as.numeric(division) - 0.5),
+                 x = 0, xend = Inf, colour = "grey90", size = 0.8) +
+    scale_fill_gradientn(colours = brewer.pal(5, "RdPu"))+
+    geom_text(aes(label = ifelse(prop > 0.05, round(prop, 2), "")), 
+              colour = "white", size = 2) +
+    theme(panel.grid = element_blank(),
+          legend.position = "right") +
+    labs(y = "",
+         x = "Winning party",
+         fill = "Frequency\nof outcome\nin sumulations") +
+    scale_x_discrete(expand = c(0, 0)) +
+    ggtitle(paste0("Likely election outcomes in ", the_state, " divisions."),
+            "Divisions ordered from least to most marginal") +
+    expand_limits(fill = c(0, 1))
+    
+  CairoSVG(paste0("output/", the_state, ".svg"), 8, height)
+    print(p)
+  dev.off()
+}
+
+draw_state_heatmap("NSW", 7)
+draw_state_heatmap("ACT", 2)
+draw_state_heatmap("NT", 2)
+draw_state_heatmap("QLD", 5)
+draw_state_heatmap("VIC", 6.5)
+draw_state_heatmap("WA", 4)
+draw_state_heatmap("SA", 3.5)
+
+svgs_to_copy <- paste0(c(
+  "seat-sims",
+  "latest-model-results",
+  "latest-polling-firm-density",
+  all_states
+), ".svg")
+
+file.copy(paste0("output/", svgs_to_copy),
+          paste0("~/blog/ellisp.github.io/img/ozpolls/", svgs_to_copy), overwrite = TRUE)
