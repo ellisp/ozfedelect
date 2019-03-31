@@ -21,6 +21,7 @@ oz_pendulum_2019 <- rbind(coal_seats, alp_seats, oth_seats) %>%
            incumbent %in% c("LIB", "NAT", "LNP")  ~ "ALP",
            TRUE                            ~ str_squish(gsub("[v\\+]", "", remarks))
          )) %>%
-  select(state, division, incumbent, margin, party_against, remarks)
+  select(state, division, incumbent, margin, party_against, remarks) %>%
+  mutate(margin = as.numeric(margin))
 
 save(oz_pendulum_2019, file = "pkg/data/oz_pendulum_2019.rda")
