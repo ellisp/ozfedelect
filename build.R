@@ -9,6 +9,7 @@ source("prep/collect_polls.R")
 # The divisions and their margins for the 2019 election
 source("prep/download-pendulum-2019.R")
 
+source("prep/define-colours.R")
 
 # More official sources
 source("prep/download-2001-and-earlier.R")
