@@ -19,7 +19,7 @@ pd <- d %>%
           "Drawn from a Bayesian state-space model of estimated actual daily voting tendency, 2007 to 2019") +
   labs(caption = "Source: seven polling firms' data collected on Wikipedia; analysis by freerangestats.info.")
 
-CairoSVG("output/latest-polling-firm-density.svg", 8, 5)
+svglite("output/latest-polling-firm-density.svg", 8, 5)
 print(pd)
 dev.off()
 
@@ -42,26 +42,26 @@ mod_results <- ex %>%
 last_day <- tail(mod_results, 1)$day
 last_lower <- round(tail(mod_results, 1)$lower,1)
 last_upper <- round(tail(mod_results, 1)$upper, 1)
-ci <- paste0("ALP two-party-preferred vote on the day estimated to be between ", last_lower, 
-             "% and ", last_upper, "%.") 
+ci <- paste0("ALP vote on election day is estimated to be between ", last_lower, 
+             " and ", last_upper, " percent") 
 
 p <- mod_results %>%
   ggplot(aes(x = day)) +
-  labs(x = "Shaded region shows a pointwise 95% credible interval for voting intention on each day.", 
+  labs(x = "Shaded region shows a pointwise 95% credible interval for voting intention on each day", 
        y = "Two-party-preferred voting intention for the ALP (%)",
-       caption = "Source: seven polling firms' data collected on Wikipedia; analysis  by freerangestats.info.") +
+       caption = "Source: seven polling firms' data collected on Wikipedia; analysis  by freerangestats.info") +
   geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3) +
   geom_line(aes(y = middle)) +
   geom_point(data = data_2pp, aes(x = mid_date, y = intended_vote * 100), 
-             colour = "steelblue", size = 0.7, shape = 19) +
+             colour = "steelblue", size = 0.5, shape = 19) +
   geom_point(data = elections_2pp, aes(x = mid_date, y = intended_vote * 100), 
              colour = "red", size = 4, shape = 13) +
   scale_y_continuous(sec.axis = dup_axis(name = "")) +
   theme(panel.grid.minor = element_blank()) +
-  ggtitle(paste0("Australian federal voting intention to ", next_election),
-          ci)
+  ggtitle(ci,
+          paste0("Australian two-party-preferred federal voting intention to ", format(next_election, format = "%d %B %Y")))
   
-CairoSVG("output/latest-model-results.svg", 8, 5)
+svglite("output/latest-model-results.svg", 8, 5)
 print(p)
 dev.off()
 
@@ -128,10 +128,10 @@ alp_wins <- sim_summary %>%
   summarise(alp_wins = (mean(seats_won[winner == "ALP"] >= 76) %>%
                           prod(100) %>%
                           round(1) %>%
-                          paste0("%"))) %>%
+                          paste0(" percent"))) %>%
   pull(alp_wins)
 
-CairoSVG("output/seat-sims.svg", 8, 5)  
+svglite("output/seat-sims.svg", 8, 5)  
 print(sim_summary %>%
   ggplot(aes(x = seats_won, fill = winner, y=..density..)) +
   facet_wrap(~winner, scales = "free_y") +
@@ -140,9 +140,10 @@ print(sim_summary %>%
   scale_fill_manual(values = oz_party_cols) +
   labs(x = "Seats won",
        y = "Proportion of simulations", 
-       fill = "") +
-  ggtitle(paste("Forecast seats in the House of Representatives on", next_election),
-          paste0(ci, "\nProbability of ALP winning 76 or more seats: ", alp_wins))
+       fill = "",
+       caption = "Source: modelling by freerangestats.info") +
+  ggtitle(paste("The estimated probability of ALP winning 76 or more seats is", alp_wins),
+          paste("Forecast number of seats out of 151 in the House of Representatives on", format(next_election, format = "%d %B %Y")))
 )
 dev.off()
 
@@ -154,7 +155,7 @@ divs <- all_divs_sims %>%
   select(-freq) %>%
   mutate(marginality = sqrt((0.5 - prop) ^ 2)) %>%
   ungroup() %>%
-  mutate(division = fct_reorder(division, marginality, .fun = min)) %>%
+  mutate(division = fct_reorder(division, -marginality, .fun = min)) %>%
   select(-marginality) %>%
   spread(winner, prop, fill = 0) %>%
   gather(winner, prop, -state, -division) %>%
@@ -177,29 +178,31 @@ draw_state_heatmap <- function(the_state = "NSW",
                  x = 0, xend = Inf, colour = "grey90", size = 0.8) +
     scale_fill_gradientn(colours = brewer.pal(5, "RdPu"))+
     geom_text(aes(label = ifelse(prop > 0.05, round(prop, 2), "")), 
-              colour = "white", size = 2) +
+              colour = "white", size = 2.5) +
     theme(panel.grid = element_blank(),
           legend.position = "right") +
     labs(y = "",
          x = "Winning party",
-         fill = "Frequency\nof outcome\nin sumulations") +
-    scale_x_discrete(expand = c(0, 0)) +
-    ggtitle(paste0("Likely election outcomes in ", the_state, " divisions."),
-            "Divisions ordered from least to most marginal") +
+         fill = "Frequency\nof outcome\nin simulations",
+         caption = "Source: modelling by freerangestats.info.") +
+    scale_x_discrete(expand = c(0, 0), position = "top") +
+    ggtitle(paste0("Likely election outcomes in ", the_state, " divisions"),
+            "Divisions ordered from most to least marginal") +
     expand_limits(fill = c(0, 1))
     
-  CairoSVG(paste0("output/", the_state, ".svg"), 8, height)
+  svglite(paste0("output/", the_state, ".svg"), 8, height)
     print(p)
   dev.off()
 }
 
-draw_state_heatmap("NSW", 7)
+draw_state_heatmap("NSW", 10.5)
 draw_state_heatmap("ACT", 2)
 draw_state_heatmap("NT", 2)
-draw_state_heatmap("QLD", 5)
-draw_state_heatmap("VIC", 6.5)
-draw_state_heatmap("WA", 4)
+draw_state_heatmap("QLD", 7)
+draw_state_heatmap("VIC", 9.5)
+draw_state_heatmap("WA", 5)
 draw_state_heatmap("SA", 3.5)
+draw_state_heatmap("TAS", 2.5)
 
 svgs_to_copy <- paste0(c(
   "seat-sims",
@@ -210,3 +213,12 @@ svgs_to_copy <- paste0(c(
 
 file.copy(paste0("output/", svgs_to_copy),
           paste0("~/blog/ellisp.github.io/img/ozpolls/", svgs_to_copy), overwrite = TRUE)
+
+
+
+#---------------party prediction intervals-----------
+
+sim_summary %>%
+  group_by(winner) %>%
+  summarise(lower = quantile(seats_won, 0.1),
+            upper= quantile(seats_won, 0.9))
