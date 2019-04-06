@@ -16,7 +16,7 @@ p <- ozpolls %>%
   theme(legend.position = c(0.83, 0.2)) +
   guides(colour = guide_legend(ncol=2))
 
-CairoSVG("output/0145-first-pref.svg", 9, 6)
+svglite("output/0145-first-pref.svg", 9, 6)
 print(p)
 dev.off()
 
@@ -35,7 +35,7 @@ p2 <- ggplot(AustralianElections, aes(x = ALP2PP / 100, y = ALPSeats / Seats)) +
           "Actual historical election results for the Australian House of Representatives") +
   labs(caption = "Source: election data collected by Simon Jackman; analysis by Peter Ellis at freerangestats.info.")
 
-CairoSVG("output/0145-2pp-seats.svg", 8, 6)
+svglite("output/0145-2pp-seats.svg", 8, 6)
 print(p2)
 dev.off()
 
@@ -49,6 +49,6 @@ p3 <- ggplot(AustralianElections, aes(x = date, y = OtherSeats)) +
   ggtitle("Seats won by parties other than Australian Labor Party, Liberal Party and National Party",
           "Election results for the Australian House of Representatives")
 
-CairoSVG("output/0145-other-parties.svg", 8, 6)
+svglite("output/0145-other-parties.svg", 8, 6)
 print(p3)
 dev.off()

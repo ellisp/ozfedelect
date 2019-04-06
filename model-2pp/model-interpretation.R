@@ -219,6 +219,15 @@ file.copy(paste0("output/", svgs_to_copy),
 #---------------party prediction intervals-----------
 
 sim_summary %>%
-  group_by(winner) %>%
-  summarise(lower = quantile(seats_won, 0.1),
-            upper= quantile(seats_won, 0.9))
+  rename(Party = winner) %>%
+  group_by(Party) %>%
+  summarise(`Lower estimate` = round(quantile(seats_won, 0.1)),
+            `Upper estimate` = round(quantile(seats_won, 0.9))) %>%
+  kable("html") %>%
+  write_clip()
+
+# Convert SVGs to PNGs for use on Twitter
+# todo - move this convert_pngs() function into frs R package:
+source("~/blog/ellisp.github.io/_R/utilities.R")
+convert_pngs("*", "~/blog/ellisp.github.io/img/ozpolls")
+

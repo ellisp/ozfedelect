@@ -2,7 +2,7 @@ library(ozfedelect)
 library(tidyverse)
 library(scales)
 library(grid)
-library(Cairo)
+library(svglite)
 
 # Some checks.
 # -7.5 for Aston in 2013 meant a swing against the Labor govt
@@ -54,33 +54,33 @@ p7 <- d %>%
   ggtitle("Individual seats face more voting uncertainty than Australia as a whole",
           "Each point represents the swing in a single seat; residual standard deviation of about 3.2 percentage points around the nation-wide swing.")
 
-CairoSVG("output/p7.svg", 13, 9)
+svglite("output/p7.svg", 13, 9)
 print(p7)
 dev.off()
 
 #--------------------explore spatial aspects of swings---------------------------
 
-CairoSVG("output/2pp-swing-2016.svg", 8, 6.5)
+svglite("output/2pp-swing-2016.svg", 8, 6.5)
 ozpol_infographic(2016, variable = "swing_to_govt", fontfamily = main_font)
 dev.off()
 
-CairoSVG("output/2pp-votes-2016.svg", 8, 6.5)
+svglite("output/2pp-votes-2016.svg", 8, 6.5)
 ozpol_infographic(2016, fontfamily = main_font)
 dev.off()
 
-CairoSVG("output/2pp-swing-2013.svg", 8, 6.5)
+svglite("output/2pp-swing-2013.svg", 8, 6.5)
 ozpol_infographic(2013, variable = "swing_to_govt", fontfamily = main_font)
 dev.off()
 
-CairoSVG("output/2pp-votes-2013.svg", 8, 6.5)
+svglite("output/2pp-votes-2013.svg", 8, 6.5)
 ozpol_infographic(2013, fontfamily = main_font)
 dev.off()
 
-CairoSVG("output/2pp-swing-2010.svg", 8, 6.5)
+svglite("output/2pp-swing-2010.svg", 8, 6.5)
 ozpol_infographic(2010, variable = "swing_to_govt", fontfamily = main_font)
 dev.off()
 
-CairoSVG("output/2pp-votes-2010.svg", 8, 6.5)
+svglite("output/2pp-votes-2010.svg", 8, 6.5)
 ozpol_infographic(2010, fontfamily = main_font)
 dev.off()
 
