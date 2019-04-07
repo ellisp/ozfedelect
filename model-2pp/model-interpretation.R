@@ -211,6 +211,8 @@ svgs_to_copy <- paste0(c(
   all_states
 ), ".svg")
 
+lapply(paste0("output/", svgs_to_copy), svg_googlefonts)
+
 file.copy(paste0("output/", svgs_to_copy),
           paste0("~/blog/ellisp.github.io/img/ozpolls/", svgs_to_copy), overwrite = TRUE)
 
@@ -230,4 +232,18 @@ sim_summary %>%
 # todo - move this convert_pngs() function into frs R package:
 source("~/blog/ellisp.github.io/_R/utilities.R")
 convert_pngs("*", "~/blog/ellisp.github.io/img/ozpolls")
+
+
+#----------------number of ALP seats-----
+# See https://www.sportsbet.com.au/betting/politics/australian-federal-politics
+
+sim_summary %>%
+  filter(winner == "ALP") %>%
+  mutate(seats_five = cut(seats_won, breaks = 1:30 * 5)) %>%
+  group_by(seats_five) %>%
+  summarise(freq = n()) %>%
+  ungroup() %>%
+  mutate(prop = freq / sum(freq),
+         fair_return = 1/ prop)
+
 
