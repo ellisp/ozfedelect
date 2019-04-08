@@ -48,5 +48,6 @@ raw-data/1990s/data/*
 raw-data/*
 
 output/model_2pp.rdata
+output/*.html
 
 !comparison-data/*
