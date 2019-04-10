@@ -81,7 +81,15 @@ alp_v_coal <- oz_pendulum_2019[1:142, ] %>%
          pos_winner = "ALP",
          alt_winner = "Lib/Nat", 
          alp_v_coal = 1) %>%
-  select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
+  select(state, division, pos_winner, margin, alt_winner, alp_v_coal) %>%
+  rbind(tibble(
+    state = "VIC",
+    division = "Indi",
+    pos_winner = "ALP",
+    margin = -8.8,
+    alt_winner = "Lib/Nat",
+    alp_v_coal = 1
+  ))
 
 alp_v_other <- oz_pendulum_2019 %>%
   filter(division %in% c("Wills", "Cooper", "Grayndler", "Clark")) %>%
@@ -92,7 +100,7 @@ alp_v_other <- oz_pendulum_2019 %>%
   select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
 
 other_v_coal <- oz_pendulum_2019 %>%
-  filter(division %in% c("Wentworth", "Mayo", "Indi", "Kennedy", "Melbourne")) %>%
+  filter(division %in% c("Wentworth", "Mayo", "Kennedy", "Melbourne")) %>%
   mutate(coal_margin = margin,
          pos_winner = ifelse(incumbent %in% c("ALP", "KAP", "NXT"), 
                              incumbent, 
