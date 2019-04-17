@@ -5678,3 +5678,16 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2019-04-04,2019-04-08,4–8 April 2019,Essential,Lib/Nat,Two-party-preferred,2019,2019-04-06,48
 2019-04-04,2019-04-08,4–8 April 2019,Essential,ONP,First preference,2019,2019-04-06,5
 2019-04-04,2019-04-08,4–8 April 2019,Essential,Oth,First preference,2019,2019-04-06,10
+2019-04-06,2019-04-07,6–7 April 2019,Roy Morgan,ALP,First preference,2019,2019-04-06,35
+2019-04-06,2019-04-07,6–7 April 2019,Roy Morgan,ALP,Two-party-preferred,2019,2019-04-06,52.5
+2019-04-06,2019-04-07,6–7 April 2019,Roy Morgan,Grn,First preference,2019,2019-04-06,13.5
+2019-04-06,2019-04-07,6–7 April 2019,Roy Morgan,Lib/Nat,First preference,2019,2019-04-06,37
+2019-04-06,2019-04-07,6–7 April 2019,Roy Morgan,Lib/Nat,Two-party-preferred,2019,2019-04-06,47.5
+2019-04-06,2019-04-07,6–7 April 2019,Roy Morgan,ONP,First preference,2019,2019-04-06,4
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,ALP,First preference,2019,2019-04-12,39
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,ALP,Two-party-preferred,2019,2019-04-12,52
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,Grn,First preference,2019,2019-04-12,9
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,Lib/Nat,First preference,2019,2019-04-12,39
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,Lib/Nat,Two-party-preferred,2019,2019-04-12,48
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,ONP,First preference,2019,2019-04-12,4
+2019-04-11,2019-04-14,11–14 April 2019,Newspoll,Oth,First preference,2019,2019-04-12,9
