@@ -237,7 +237,7 @@ sim_summary %>%
   writeLines("output/ozpolls2019-table.html")
 
 file.copy("output/ozpolls2019-table.html",
-          "~/blog/ellisp.github.io/_includes/ozpolls2019-table.html")
+          "~/blog/ellisp.github.io/_includes/ozpolls2019-table.html", overwrite = TRUE)
 
 # Convert SVGs to PNGs for use on Twitter
 # todo - move this convert_pngs() function into frs R package:
