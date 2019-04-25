@@ -5413,13 +5413,13 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2018-08-12,2018-08-12,12 Aug 2018,Newspoll,Lib/Nat,Two-party-preferred,2019,2018-08-12,49
 2018-08-12,2018-08-12,12 Aug 2018,Newspoll,ONP,First preference,2019,2018-08-12,9
 2018-08-12,2018-08-12,12 Aug 2018,Newspoll,Oth,First preference,2019,2018-08-12,9
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,ALP,First preference,2019,2018-08-16,35
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,ALP,Two-party-preferred,2019,2018-08-16,55
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,Grn,First preference,2019,2018-08-16,13
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,Lib/Nat,First preference,2019,2018-08-16,33
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,Lib/Nat,Two-party-preferred,2019,2018-08-16,45
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,ONP,First preference,2019,2018-08-16,8
-2018-08-15,2018-08-18,15-18 Aug 2018,Ipsos,Oth,First preference,2019,2018-08-16,11
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,ALP,First preference,2019,2018-08-16,35
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,ALP,Two-party-preferred,2019,2018-08-16,55
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,Grn,First preference,2019,2018-08-16,13
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,Lib/Nat,First preference,2019,2018-08-16,33
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,Lib/Nat,Two-party-preferred,2019,2018-08-16,45
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,ONP,First preference,2019,2018-08-16,8
+2018-08-15,2018-08-18,15–18 Aug 2018,Ipsos,Oth,First preference,2019,2018-08-16,11
 2018-08-24,2018-08-25,24–25 Aug 2018,Newspoll,ALP,First preference,2019,2018-08-24,41
 2018-08-24,2018-08-25,24–25 Aug 2018,Newspoll,ALP,Two-party-preferred,2019,2018-08-24,56
 2018-08-24,2018-08-25,24–25 Aug 2018,Newspoll,Grn,First preference,2019,2018-08-24,10
@@ -5532,13 +5532,13 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2018-11-15,2018-11-17,15–17 Nov 2018,Ipsos,Lib/Nat,Two-party-preferred,2019,2018-11-16,48
 2018-11-15,2018-11-17,15–17 Nov 2018,Ipsos,ONP,First preference,2019,2018-11-16,5
 2018-11-15,2018-11-17,15–17 Nov 2018,Ipsos,Oth,First preference,2019,2018-11-16,11
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,ALP,First preference,2019,2018-11-16,35
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,ALP,Two-party-preferred,2019,2018-11-16,52
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,Grn,First preference,2019,2018-11-16,11
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,Lib/Nat,First preference,2019,2018-11-16,37
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,Lib/Nat,Two-party-preferred,2019,2018-11-16,48
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,ONP,First preference,2019,2018-11-16,7
-2018-11-15,2018-11-18,15-18 Nov 2018,Essential,Oth,First preference,2019,2018-11-16,10
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,ALP,First preference,2019,2018-11-16,35
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,ALP,Two-party-preferred,2019,2018-11-16,52
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,Grn,First preference,2019,2018-11-16,11
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,Lib/Nat,First preference,2019,2018-11-16,37
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,Lib/Nat,Two-party-preferred,2019,2018-11-16,48
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,ONP,First preference,2019,2018-11-16,7
+2018-11-15,2018-11-18,15–18 Nov 2018,Essential,Oth,First preference,2019,2018-11-16,10
 2018-11-23,2018-11-25,23–25 Nov 2018,Newspoll,ALP,First preference,2019,2018-11-24,40
 2018-11-23,2018-11-25,23–25 Nov 2018,Newspoll,ALP,Two-party-preferred,2019,2018-11-24,55
 2018-11-23,2018-11-25,23–25 Nov 2018,Newspoll,Grn,First preference,2019,2018-11-24,9
@@ -5691,3 +5691,10 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2019-04-11,2019-04-14,11–14 April 2019,Newspoll,Lib/Nat,Two-party-preferred,2019,2019-04-12,48
 2019-04-11,2019-04-14,11–14 April 2019,Newspoll,ONP,First preference,2019,2019-04-12,4
 2019-04-11,2019-04-14,11–14 April 2019,Newspoll,Oth,First preference,2019,2019-04-12,9
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,ALP,First preference,2019,2019-04-20,35.5
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,ALP,Two-party-preferred,2019,2019-04-20,51
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Grn,First preference,2019,2019-04-20,9.5
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Lib/Nat,First preference,2019,2019-04-20,39
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Lib/Nat,Two-party-preferred,2019,2019-04-20,49
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,ONP,First preference,2019,2019-04-20,4.5
+2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Oth,First preference,2019,2019-04-20,9.5
