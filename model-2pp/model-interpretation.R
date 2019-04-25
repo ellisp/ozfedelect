@@ -236,6 +236,17 @@ sim_summary %>%
   kable("html") %>%
   writeLines("output/ozpolls2019-table.html")
 
+sim_summary %>%
+  mutate(Party = case_when(
+    winner %in% c("ALP", "Grn") ~ "Left",
+    TRUE ~ "Coalition and other"
+  )) %>%
+  group_by(Party, sim_number) %>%
+  summarise(seats_won = sum(seats_won)) %>%
+  group_by(Party) %>%
+  summarise(wins = mean(seats_won >= 76)) 
+
+
 file.copy("output/ozpolls2019-table.html",
           "~/blog/ellisp.github.io/_includes/ozpolls2019-table.html", overwrite = TRUE)
 
