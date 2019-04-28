@@ -5651,10 +5651,10 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2019-03-20,2019-03-25,20–25 March 2019,Essential,Lib/Nat,Two-party-preferred,2019,2019-03-22,48
 2019-03-20,2019-03-25,20–25 March 2019,Essential,ONP,First preference,2019,2019-03-22,7
 2019-03-20,2019-03-25,20–25 March 2019,Essential,Oth,First preference,2019,2019-03-22,8
-2019-03-25,2019-03-28,25–28 March 2019,Galaxy,ALP,First preference,2019,2019-03-26,34
+2019-03-25,2019-03-28,25–28 March 2019,Galaxy,ALP,First preference,2019,2019-03-26,37
 2019-03-25,2019-03-28,25–28 March 2019,Galaxy,ALP,Two-party-preferred,2019,2019-03-26,53
-2019-03-25,2019-03-28,25–28 March 2019,Galaxy,Grn,First preference,2019,2019-03-26,9
-2019-03-25,2019-03-28,25–28 March 2019,Galaxy,Lib/Nat,First preference,2019,2019-03-26,33
+2019-03-25,2019-03-28,25–28 March 2019,Galaxy,Grn,First preference,2019,2019-03-26,10
+2019-03-25,2019-03-28,25–28 March 2019,Galaxy,Lib/Nat,First preference,2019,2019-03-26,35
 2019-03-25,2019-03-28,25–28 March 2019,Galaxy,Lib/Nat,Two-party-preferred,2019,2019-03-26,47
 2019-03-25,2019-03-28,25–28 March 2019,Galaxy,ONP,First preference,2019,2019-03-26,8
 2019-04-03,2019-04-06,3–6 April 2019,Ipsos,ALP,First preference,2019,2019-04-04,34
@@ -5697,4 +5697,9 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Lib/Nat,First preference,2019,2019-04-20,39
 2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Lib/Nat,Two-party-preferred,2019,2019-04-20,49
 2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,ONP,First preference,2019,2019-04-20,4.5
-2019-04-20,2019-04-21,20–21 April 2019,Roy Morgan,Oth,First preference,2019,2019-04-20,9.5
+2019-04-23,2019-04-25,23–25 April 2019,Galaxy,ALP,First preference,2019,2019-04-24,37
+2019-04-23,2019-04-25,23–25 April 2019,Galaxy,ALP,Two-party-preferred,2019,2019-04-24,52
+2019-04-23,2019-04-25,23–25 April 2019,Galaxy,Grn,First preference,2019,2019-04-24,9
+2019-04-23,2019-04-25,23–25 April 2019,Galaxy,Lib/Nat,First preference,2019,2019-04-24,37
+2019-04-23,2019-04-25,23–25 April 2019,Galaxy,Lib/Nat,Two-party-preferred,2019,2019-04-24,48
+2019-04-23,2019-04-25,23–25 April 2019,Galaxy,ONP,First preference,2019,2019-04-24,4
