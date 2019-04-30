@@ -5703,6 +5703,13 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2019-04-23,2019-04-25,23–25 Apr 2019,Galaxy,Lib/Nat,First preference,2019,2019-04-24,37
 2019-04-23,2019-04-25,23–25 Apr 2019,Galaxy,Lib/Nat,Two-party-preferred,2019,2019-04-24,48
 2019-04-23,2019-04-25,23–25 Apr 2019,Galaxy,ONP,First preference,2019,2019-04-24,4
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,ALP,First preference,2019,2019-04-27,37
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,ALP,Two-party-preferred,2019,2019-04-27,51
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,Grn,First preference,2019,2019-04-27,9
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,Lib/Nat,First preference,2019,2019-04-27,39
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,Lib/Nat,Two-party-preferred,2019,2019-04-27,49
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,ONP,First preference,2019,2019-04-27,6
+2019-04-25,2019-04-29,25–29 Apr 2019,Essential,Oth,First preference,2019,2019-04-27,9
 2019-04-26,2019-04-28,26–28 Apr 2019,Newspoll,ALP,First preference,2019,2019-04-27,37
 2019-04-26,2019-04-28,26–28 Apr 2019,Newspoll,ALP,Two-party-preferred,2019,2019-04-27,51
 2019-04-26,2019-04-28,26–28 Apr 2019,Newspoll,Grn,First preference,2019,2019-04-27,9
