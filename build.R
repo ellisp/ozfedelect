@@ -24,6 +24,7 @@ check("pkg")
 
 
 #==============Modelling==================
-the_caption <- "Source: analysis by freerangestats.info with polling data on Wikipedia; last updated 6 May 2019"
 source("model-2pp/model-2pp.R")
+
+the_caption <- "Source: analysis by freerangestats.info with polling data on Wikipedia; last updated 7 May 2019"
 source("model-2pp/model-interpretation.R")
