@@ -17,7 +17,7 @@ pd <- d %>%
   scale_x_continuous("Estimated overestimate of ALP two-party-preferred vote", label = percent_format()) +
   ggtitle("House effects in polls for the Australian House of Representatives",
           "Drawn from a Bayesian state-space model of estimated actual daily voting tendency, 2007 to 2019") +
-  labs(caption = "Source: seven polling firms' data collected on Wikipedia; analysis by freerangestats.info.")
+  labs(caption = the_caption)
 
 svglite("output/latest-polling-firm-density.svg", 8, 5)
 print(pd)
@@ -49,7 +49,7 @@ p <- mod_results %>%
   ggplot(aes(x = day)) +
   labs(x = "Shaded region shows a pointwise 95% credible interval for voting intention on each day", 
        y = "Two-party-preferred voting intention for the ALP (%)",
-       caption = "Source: seven polling firms' data collected on Wikipedia; analysis  by freerangestats.info") +
+       caption = the_caption) +
   geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3) +
   geom_line(aes(y = middle)) +
   geom_point(data = data_2pp, aes(x = mid_date, y = intended_vote * 100), 
@@ -135,7 +135,7 @@ sim_summary <- all_divs_sims %>%
 alp_wins <- sim_summary %>%
   summarise(alp_wins = (mean(seats_won[winner == "ALP"] >= 76) %>%
                           prod(100) %>%
-                          round(1) %>%
+                          round(2) %>%
                           paste0(" percent"))) %>%
   pull(alp_wins)
 
@@ -149,7 +149,7 @@ print(sim_summary %>%
   labs(x = "Seats won",
        y = "Proportion of simulations", 
        fill = "",
-       caption = "Source: modelling by freerangestats.info") +
+       caption = the_caption) +
   ggtitle(paste("The estimated probability of ALP winning 76 or more seats is", alp_wins),
           paste("Forecast number of seats out of 151 in the House of Representatives on", format(next_election, format = "%d %B %Y")))
 )
@@ -192,7 +192,7 @@ draw_state_heatmap <- function(the_state = "NSW",
     labs(y = "",
          x = "Winning party",
          fill = "Frequency\nof outcome\nin simulations",
-         caption = "Source: modelling by freerangestats.info.") +
+         caption = the_caption) +
     scale_x_discrete(expand = c(0, 0), position = "top") +
     ggtitle(paste0("Likely election outcomes in ", the_state, " divisions"),
             "Divisions ordered from most to least marginal") +
