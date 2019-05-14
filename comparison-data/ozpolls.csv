@@ -5753,3 +5753,9 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2019-05-09,2019-05-11,9–11 May 2019,Newspoll,Lib/Nat,First preference,2019,2019-05-10,39
 2019-05-09,2019-05-11,9–11 May 2019,Newspoll,Lib/Nat,Two-party-preferred,2019,2019-05-10,49
 2019-05-09,2019-05-11,9–11 May 2019,Newspoll,ONP,First preference,2019,2019-05-10,4
+2019-05-10,2019-05-12,10–12 May 2019,Roy Morgan,ALP,First preference,2019,2019-05-11,35.5
+2019-05-10,2019-05-12,10–12 May 2019,Roy Morgan,ALP,Two-party-preferred,2019,2019-05-11,52
+2019-05-10,2019-05-12,10–12 May 2019,Roy Morgan,Grn,First preference,2019,2019-05-11,10
+2019-05-10,2019-05-12,10–12 May 2019,Roy Morgan,Lib/Nat,First preference,2019,2019-05-11,38.5
+2019-05-10,2019-05-12,10–12 May 2019,Roy Morgan,Lib/Nat,Two-party-preferred,2019,2019-05-11,48
+2019-05-10,2019-05-12,10–12 May 2019,Roy Morgan,ONP,First preference,2019,2019-05-11,4
