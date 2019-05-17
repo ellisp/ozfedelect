@@ -3,6 +3,9 @@ source("setup.R")
 rstan_options(auto_write = TRUE)
 options(mc.cores = 7)
 
+ozpolls <- ozpolls %>%
+  mutate(firm = ifelse(firm == "YouGov/Galaxy", "Galaxy", firm))
+
 
 #--------------Data preparation-------------------
 first_election <- as.Date("2007-11-24")
