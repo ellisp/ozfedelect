@@ -57,7 +57,7 @@ tab_names = c("dates", "firm",
               "ALP!Two-party-preferred", "Lib/Nat!Two-party-preferred", 
               "x1")
 
-last_election_date = as.Date("2010-06-24")
+last_election_date = as.Date("2010-08-21")
 election_year = 2013
 
 webpage <- url %>%
