@@ -238,6 +238,28 @@ sim_summary %>%
 
 sim_summary %>%
   mutate(Party = case_when(
+    winner %in% c("Lib/Nat") ~ "Coalition alone",
+    TRUE ~ "Other"
+  )) %>%
+  group_by(Party, sim_number) %>%
+  summarise(seats_won = sum(seats_won)) %>%
+  group_by(Party) %>%
+  summarise(wins = mean(seats_won >= 76)) 
+
+
+sim_summary %>%
+  mutate(Party = case_when(
+    winner %in% c("Lib/Nat", "KAP") ~ "Coalition and Katter",
+    TRUE ~ "Other"
+  )) %>%
+  group_by(Party, sim_number) %>%
+  summarise(seats_won = sum(seats_won)) %>%
+  group_by(Party) %>%
+  summarise(wins = mean(seats_won >= 76)) 
+
+
+sim_summary %>%
+  mutate(Party = case_when(
     winner %in% c("ALP", "Grn") ~ "Left",
     TRUE ~ "Coalition and other"
   )) %>%
@@ -245,7 +267,6 @@ sim_summary %>%
   summarise(seats_won = sum(seats_won)) %>%
   group_by(Party) %>%
   summarise(wins = mean(seats_won >= 76)) 
-
 
 # file.copy("output/ozpolls2019-table.html",
 #           "~/blog/ellisp.github.io/_includes/ozpolls2019-table.html", overwrite = TRUE)
