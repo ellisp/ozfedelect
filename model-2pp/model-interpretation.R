@@ -221,8 +221,8 @@ svgs_to_copy <- paste0(c(
 
 lapply(paste0("output/", svgs_to_copy), svg_googlefonts)
 
-file.copy(paste0("output/", svgs_to_copy),
-          paste0("~/blog/ellisp.github.io/img/ozpolls/", svgs_to_copy), overwrite = TRUE)
+# file.copy(paste0("output/", svgs_to_copy),
+#           paste0("~/blog/ellisp.github.io/img/ozpolls/", svgs_to_copy), overwrite = TRUE)
 
 
 
@@ -247,13 +247,13 @@ sim_summary %>%
   summarise(wins = mean(seats_won >= 76)) 
 
 
-file.copy("output/ozpolls2019-table.html",
-          "~/blog/ellisp.github.io/_includes/ozpolls2019-table.html", overwrite = TRUE)
+# file.copy("output/ozpolls2019-table.html",
+#           "~/blog/ellisp.github.io/_includes/ozpolls2019-table.html", overwrite = TRUE)
 
 # Convert SVGs to PNGs for use on Twitter
 # todo - move this convert_pngs() function into frs R package:
 source("~/blog/ellisp.github.io/_R/utilities.R")
-convert_pngs("*", "~/blog/ellisp.github.io/img/ozpolls")
+# convert_pngs("*", "~/blog/ellisp.github.io/img/ozpolls")
 
 
 #----------------number of ALP seats-----
