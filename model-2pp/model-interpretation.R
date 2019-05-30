@@ -1,4 +1,4 @@
-load("output/model_2pp.rdata")
+load("output/model_2pp_2019051801014.rdata")
 
 #-------------------------House effects-------------------
 
@@ -290,3 +290,9 @@ sim_summary %>%
          fair_return = 1/ prop)
 
 
+#---------------exports for the Economist--------------------
+sim_summary %>%
+  write_csv("output/ellis_auspol_sims.csv")
+  
+all_divs_sims  %>%
+  write_csv("output/ellis_auspol_sims_full.csv")
