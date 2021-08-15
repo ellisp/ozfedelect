@@ -5,9 +5,12 @@ load("output/model_2pp_2019051801014.rdata")
 # Polling firms
 
 d <- as.data.frame(extract(model_2pp, "d")$d)
-names(d) <- all_firms
+
 pd <- d %>%
-  gather(firm, overestimate) %>%
+  gather(firm_idx, overestimate) %>% 
+  mutate(firm_idx = as.numeric(str_replace_all(firm_idx, "V", ""))) %>% 
+  left_join(all_firms_index,
+            by = "firm_idx")  %>% 
   mutate(firm = fct_reorder(firm, overestimate)) %>%
   ggplot(aes(x = overestimate, colour = firm, fill = firm)) +
   #  facet_wrap(~firm) +

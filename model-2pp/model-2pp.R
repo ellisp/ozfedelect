@@ -31,12 +31,12 @@ sample_sizes <- ozpolls_2016 %>%
 sample_sizes <- sample_sizes  %>%
   mutate(ss = ifelse(is.na(ss), min(sample_sizes$ss, na.rm = TRUE), ss))
 
-all_firms <- ozpolls %>%
+all_firms_index <- ozpolls %>%
   filter(!firm %in% c("Election result") &
            firm %in% firms_today) %>%
-  pull(firm) %>%
-  unique() %>%
-  as.character()
+  select(firm) %>% 
+  distinct() %>% 
+  mutate(firm_idx = as.numeric(factor(firm)))
 
 # 2 party preferred vote - both elections and polls:
 data_2pp <- ozpolls %>%
@@ -64,10 +64,10 @@ elections_2pp <- data_2pp %>%
 election_days <- c(pull(elections_2pp, n_days), next_election - first_election)
 election_results <- pull(elections_2pp, intended_vote)
 
-# Data for one pollster as a time, elements in a list for ease of use:
-one_pollster <- lapply(all_firms, function(x){
-  filter(data_2pp, firm == x)
-})
+# Polling data 
+polls_2pp <- data_2pp %>% 
+  left_join(all_firms_index, by = "firm") %>% 
+  filter(!is.na(firm_idx)) 
 
 # Put all the data into a single list we can pass to Stan:
 model_data <- list(
@@ -78,40 +78,13 @@ model_data <- list(
   # This inflator doubles the variance of polls; ie allows for non-sampling error
   inflator =sqrt(2),
   
-  y1_values = one_pollster[[1]]$intended_vote,
-  y1_days = one_pollster[[1]]$n_days,
-  y1_n = nrow(one_pollster[[1]]),
-  y1_se = one_pollster[[1]]$se[1],
+  n_polling_firms = nrow(all_firms_index),
   
-  y2_values = one_pollster[[2]]$intended_vote,
-  y2_days = one_pollster[[2]]$n_days,
-  y2_n = nrow(one_pollster[[2]]),
-  y2_se = one_pollster[[2]]$se[1],
-  
-  y3_values = one_pollster[[3]]$intended_vote,
-  y3_days = one_pollster[[3]]$n_days,
-  y3_n = nrow(one_pollster[[3]]),
-  y3_se = one_pollster[[3]]$se[1],
-  
-  y4_values = one_pollster[[4]]$intended_vote,
-  y4_days = one_pollster[[4]]$n_days,
-  y4_n = nrow(one_pollster[[4]]),
-  y4_se = one_pollster[[4]]$se[1],
-  
-  y5_values = one_pollster[[5]]$intended_vote,
-  y5_days = one_pollster[[5]]$n_days,
-  y5_n = nrow(one_pollster[[5]]),
-  y5_se = one_pollster[[5]]$se[1],
-  
-  y6_values = one_pollster[[6]]$intended_vote,
-  y6_days = one_pollster[[6]]$n_days,
-  y6_n = nrow(one_pollster[[6]]),
-  y6_se = one_pollster[[6]]$se[1],
-  
-  y7_values = one_pollster[[7]]$intended_vote,
-  y7_days = one_pollster[[7]]$n_days,
-  y7_n = nrow(one_pollster[[7]]),
-  y7_se = one_pollster[[7]]$se[1]
+  polls_n = nrow(polls_2pp),
+  polls_firm_idx = polls_2pp$firm_idx,
+  polls_intended_vote = polls_2pp$intended_vote, 
+  polls_se = polls_2pp$se,
+  polls_day = polls_2pp$n_days
   
   )
 
