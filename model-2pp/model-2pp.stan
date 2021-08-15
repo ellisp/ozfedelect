@@ -7,48 +7,19 @@ data {
   real election_results[number_elections - 1];           // historical election results
   real inflator;                      // amount by which to multiply the standard error of polls
   
-  // note - pollsters are individually hard coded in to avoid having to use some kind of ragged array:
+  int n_polling_firms; // number of polling firms
   
-  int y1_n;                              // number of polls conducted by pollster 1
-  real y1_values[y1_n];       // actual values in polls for pollster 1
-  int y1_days[y1_n];                     // the number of days since first election each poll was taken
-  real y1_se;                 // the standard error for each party from pollster 1 (note sometimes made up)
-  
-  int y2_n;
-  real y2_values[y2_n];       
-  int y2_days[y2_n];                     
-  real y2_se;
-  
-  int y3_n;
-  real y3_values[y3_n];       
-  int y3_days[y3_n];                     
-  real y3_se;
-  
-  int y4_n;
-  real y4_values[y4_n];       
-  int y4_days[y4_n];                     
-  real y4_se;
-  
-  int y5_n;
-  real y5_values[y5_n];       
-  int y5_days[y5_n];                     
-  real y5_se;
-
-  int y6_n;
-  real y6_values[y6_n];       
-  int y6_days[y6_n];                     
-  real y6_se;
-  
-  int y7_n;
-  real y7_values[y7_n];       
-  int y7_days[y7_n];                     
-  real y7_se;
+  int polls_n;                              // number of polls
+  int polls_firm_idx[polls_n]; // index of firm
+  real polls_intended_vote[polls_n];       // actual values in polls 
+  real polls_se[polls_n];                 // the standard error for each party (note sometimes made up)
+  int polls_day[polls_n];                     // the number of days since first election each poll was taken
 
 }
 
 parameters {
   vector[election_days[number_elections]] mu;         // 
-  real d[7];                      // polling effects
+  real d[n_polling_firms];                      // polling effects
   real<lower=0> sigma;            // sd of innovations
 }
 
@@ -71,13 +42,9 @@ model {
   
   
   // 2. Polls
-  y1_values ~ normal(mu[y1_days]   + d[1],  y1_se * inflator);
-  y2_values ~ normal(mu[y2_days]   + d[2],  y2_se * inflator);
-  y3_values ~ normal(mu[y3_days]   + d[3],  y3_se * inflator);
-  y4_values ~ normal(mu[y4_days]   + d[4],  y4_se * inflator);
-  y5_values ~ normal(mu[y5_days]   + d[5],  y5_se * inflator);
-  y6_values ~ normal(mu[y6_days]   + d[6],  y6_se * inflator);
-  y7_values ~ normal(mu[y7_days]   + d[7],  y7_se * inflator);
-  
+  for(ii in 1:polls_n){
+    polls_intended_vote[ii] ~ normal(mu[polls_day[ii]] + d[polls_firm_idx[ii]], polls_se[ii] * inflator);
+  }
+
 }
 
