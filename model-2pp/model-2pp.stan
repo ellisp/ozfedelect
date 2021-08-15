@@ -7,9 +7,7 @@ data {
   real election_results[number_elections - 1];           // historical election results
   real inflator;                      // amount by which to multiply the standard error of polls
   
-  // note - pollsters are individually hard coded in to avoid having to use some kind of ragged array:
-  
-  int n_polling_firms;
+  int n_polling_firms; // number of polling firms
   
   int polls_n;                              // number of polls
   int polls_firm_idx[polls_n]; // index of firm
