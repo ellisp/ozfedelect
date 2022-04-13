@@ -3,6 +3,7 @@ oz_party_cols <- c(
   "Lib/Nat" = "#1c4f9c",
   "Grn" = "#009640",
   "ONP" = "#FF4900",
+  "UAP" = "#FFFF00",
   "KAP" = "#b50204",
   "NXT" = "#FF7400",
   "Ind" = "grey30",
