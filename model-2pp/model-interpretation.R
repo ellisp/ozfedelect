@@ -1,4 +1,6 @@
-load("output/model_2pp_2019051801014.rdata")
+load("output/model_2pp.rdata")
+
+the_caption <- ""
 
 #-------------------------House effects-------------------
 
@@ -76,33 +78,26 @@ sd(election_sims)
 # individual level swing statndard deviation is 3.2
 # last election was 47.52 ALP 
 
-alp_v_coal <- oz_pendulum_2019[1:142, ] %>%
+alp_v_coal <- oz_pendulum_2022%>%
+  filter(!division %in% c("Cooper", "Grayndler", "Indi", "Mayo", "Warringah", "Kennedy", "Melbourne", "Clark")) %>%
   mutate(margin = ifelse(party_against == "ALP", -margin, margin),
          pos_winner = "ALP",
          alt_winner = "Lib/Nat", 
          alp_v_coal = 1) %>%
-  select(state, division, pos_winner, margin, alt_winner, alp_v_coal) %>%
-  rbind(tibble(
-    state = "VIC",
-    division = "Indi",
-    pos_winner = "ALP",
-    margin = -8.8,
-    alt_winner = "Lib/Nat",
-    alp_v_coal = 1
-  ))
+  select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
 
-alp_v_other <- oz_pendulum_2019 %>%
-  filter(division %in% c("Wills", "Cooper", "Grayndler", "Clark")) %>%
+alp_v_other <- oz_pendulum_2022 %>%
+  filter(division %in% c("Cooper", "Grayndler", "Clark")) %>%
   mutate(pos_winner = "ALP",
-         margin = c(4.9, 1.3, 15.8, -17.8),
-         alt_winner = c("Grn", "Grn", "Grn", "Ind"), 
+         margin = c(14.6, 16.3, 22.1),
+         alt_winner = c("Grn", "Grn", "Ind"), 
          alp_v_coal = 0) %>%
   select(state, division, pos_winner, margin, alt_winner, alp_v_coal)
 
-other_v_coal <- oz_pendulum_2019 %>%
-  filter(division %in% c("Wentworth", "Mayo", "Kennedy", "Melbourne")) %>%
+other_v_coal <- oz_pendulum_2022 %>%
+  filter(division %in% c("Indi", "Mayo", "Warringah", "Kennedy", "Melbourne")) %>%
   mutate(coal_margin = margin,
-         pos_winner = ifelse(incumbent %in% c("ALP", "KAP", "NXT"), 
+         pos_winner = ifelse(incumbent %in% c("ALP", "KAP", "CA"), 
                              incumbent, 
                              str_to_sentence(incumbent)),
          alt_winner = "Lib/Nat", 

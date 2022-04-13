@@ -5,7 +5,7 @@ oz_party_cols <- c(
   "ONP" = "#FF4900",
   "UAP" = "#FFFF00",
   "KAP" = "#b50204",
-  "NXT" = "#FF7400",
+  "CA" = "#FF7400",
   "Ind" = "grey30",
   "Oth" = "grey70"
 )

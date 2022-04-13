@@ -1,7 +1,7 @@
 #----------------set up----------------
 source("setup.R")
 rstan_options(auto_write = TRUE)
-options(mc.cores = 7)
+options(mc.cores = 4)
 
 ozpolls <- ozpolls %>%
   mutate(firm = ifelse(firm == "YouGov/Galaxy", "Galaxy", firm))
@@ -9,17 +9,18 @@ ozpolls <- ozpolls %>%
 
 #--------------Data preparation-------------------
 first_election <- as.Date("2007-11-24")
-next_election <- as.Date("2019-05-18")
+next_election <- as.Date("2022-05-21")
 firms_today <- ozpolls %>%
-  filter(election_year == 2019) %>%
+  filter(election_year == 2022) %>%
   distinct(firm) %>%
   pull(firm)
 
 # We don't have sample sizes except in the build up to 2016, so we'll just get
 # the average sample size for firms from them and assume that's what they stick to:
-sample_sizes <- ozpolls_2016 %>%
+sample_sizes <- ozpolls_2022 %>%
   mutate(firm = str_squish(gsub("\\(.+\\)", "", firm)),
          firm = ifelse(firm == "Morgan", "Roy Morgan", firm),
+         firm = ifelse(firm == "Newspoll-YouGov", "Newspoll", firm),
          firm = ifelse(firm == "ReachTel", "ReachTEL", firm)) %>%
   filter(firm != "Election result") %>%
   group_by(firm) %>%
@@ -32,7 +33,7 @@ sample_sizes <- sample_sizes  %>%
   mutate(ss = ifelse(is.na(ss), min(sample_sizes$ss, na.rm = TRUE), ss))
 
 all_firms <- ozpolls %>%
-  filter(!firm %in% c("Election result") &
+  filter(!firm %in% c("Election result", "ANU", "Resolve Strategic") &
            firm %in% firms_today) %>%
   pull(firm) %>%
   unique() %>%
@@ -96,22 +97,22 @@ model_data <- list(
   y4_values = one_pollster[[4]]$intended_vote,
   y4_days = one_pollster[[4]]$n_days,
   y4_n = nrow(one_pollster[[4]]),
-  y4_se = one_pollster[[4]]$se[1],
+  y4_se = one_pollster[[4]]$se[1]
   
-  y5_values = one_pollster[[5]]$intended_vote,
-  y5_days = one_pollster[[5]]$n_days,
-  y5_n = nrow(one_pollster[[5]]),
-  y5_se = one_pollster[[5]]$se[1],
+  # y5_values = one_pollster[[5]]$intended_vote,
+  # y5_days = one_pollster[[5]]$n_days,
+  # y5_n = nrow(one_pollster[[5]]),
+  # y5_se = one_pollster[[5]]$se[1],
+  # 
+  # y6_values = one_pollster[[6]]$intended_vote,
+  # y6_days = one_pollster[[6]]$n_days,
+  # y6_n = nrow(one_pollster[[6]]),
+  # y6_se = one_pollster[[6]]$se[1]
   
-  y6_values = one_pollster[[6]]$intended_vote,
-  y6_days = one_pollster[[6]]$n_days,
-  y6_n = nrow(one_pollster[[6]]),
-  y6_se = one_pollster[[6]]$se[1],
-  
-  y7_values = one_pollster[[7]]$intended_vote,
-  y7_days = one_pollster[[7]]$n_days,
-  y7_n = nrow(one_pollster[[7]]),
-  y7_se = one_pollster[[7]]$se[1]
+  # y7_values = one_pollster[[7]]$intended_vote,
+  # y7_days = one_pollster[[7]]$n_days,
+  # y7_n = nrow(one_pollster[[7]]),
+  # y7_se = one_pollster[[7]]$se[1]
   
   )
 

@@ -162,7 +162,7 @@ expect_equal(
     group_by(election_year) %>%
     summarise(number_divs = n()) %>%
     pull(number_divs),
-  c(147, 148, 148, rep(150, 6))
+  c(147, 148, 148, rep(150, 6), 151)
 )
 
 save(results_2pp_div, file = "pkg/data/results_2pp_div.rda", compress = "xz")

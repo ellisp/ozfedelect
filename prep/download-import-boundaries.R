@@ -25,8 +25,8 @@ for(i in 1:length(sfnames)){
                          layer = gsub("\\.shp$", "", list.files(the_dir, pattern = ".shp$")),
                          stringsAsFactors = FALSE) %>%
     mutate(election_year = str_extract(sfnames[i], "[0-9]+")) %>%
-    rename_all(tolower) %>%
-    rename_all(function(x){gsub("[0-9]+", "", x)})
+    rename_with(tolower) %>%
+    rename_with(function(x){gsub("[0-9]+", "", x)})
   
   # crop the map so all of them have the same bounding box
   tmp <- st_crop(tmp, 

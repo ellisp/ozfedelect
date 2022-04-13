@@ -182,6 +182,11 @@ tab_names = c("dates", "firm", "survey_type", "sample_size",
               "Lib/Nat!Two-party-preferred", "ALP!Two-party-preferred",  
               "x1", "x2", "x3", "x4", "x5")
 
+tab_names_2 = c("dates", "firm", "survey_type", "sample_size",
+              paste0(c("Lib/Nat", "ALP", "Grn", "ONP", "Oth", "Und"), "!First preference"), 
+              "Lib/Nat!Two-party-preferred", "ALP!Two-party-preferred",  
+              "x1", "x2", "x3", "x4", "x5")
+
 last_election_date = as.Date("2019-05-18")
 election_year = 2022
 
@@ -192,9 +197,16 @@ tabs <- webpage %>%
   html_nodes("table") 
 
 # number below depends on the webpage...
-tab <- html_table(tabs[[2]], fill = TRUE) 
+tab <- html_table(tabs[[2]], fill = TRUE)
+tab2 <- html_table(tabs[[3]], fill = TRUE) 
 
 names(tab) <- tab_names
+names(tab2) <- tab_names_2
+
+tab2$"UAP!First preference" <- ""
+tab2$x1 <- ""
+
+tab <- rbind(tab2, tab)
 
 ozpolls_2022 <- tab %>%
   as_tibble() %>%
@@ -204,6 +216,7 @@ ozpolls_2022 <- tab %>%
   separate(variable, sep = "!", into = c("party", "preference_type")) %>%
   mutate(intended_vote = suppressWarnings(as.numeric(gsub("%", "", intended_vote, fixed = TRUE)))) %>%
   mutate(election_year = election_year) %>%
+  mutate(sample_size = as.numeric(gsub(",", "", sample_size))) %>%
   filter(!is.na(intended_vote)) %>%
   parse_dates() %>%
   mutate(start_date = if_else(original_dates == "18 May 2019 election", last_election_date, start_date),
@@ -231,6 +244,7 @@ ozpolls <- ozpolls_2010 %>%
   rbind(ozpolls_2022) %>%
     mutate(firm = str_squish(gsub("\\(.+\\)", "", firm)),
            firm = ifelse(firm == "Morgan", "Roy Morgan", firm),
+           firm = ifelse(firm == "Newspoll-YouGov", "Newspoll", firm),
            firm = ifelse(firm == "ReachTel", "ReachTEL", firm)) %>%
     mutate(mid_date = start_date + (as.numeric(end_date) - as.numeric(start_date)) / 2) %>%
     mutate(party = ifelse(party %in% c("Lib", "Nat"), "Lib/Nat", party)) %>%
