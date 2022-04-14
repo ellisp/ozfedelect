@@ -4,7 +4,9 @@
 \name{div_boundaries}
 \alias{div_boundaries}
 \title{Australian Federal Electoral Division Boundaries}
-\format{A tibble with simple features geometry}
+\format{
+A tibble with simple features geometry
+}
 \source{
 Australian Bureau of Statistics
 }

@@ -4,7 +4,9 @@
 \name{ozpolls}
 \alias{ozpolls}
 \title{Australian Federal Voting Intention Polls}
-\format{A tibble with 5,500+ rows and 10 variables.}
+\format{
+A tibble with 5,500+ rows and 10 variables.
+}
 \source{
 Various polling firms, collected on Wikipedia and scraped by Peter Ellis
 }

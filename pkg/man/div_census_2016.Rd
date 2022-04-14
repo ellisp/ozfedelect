@@ -4,7 +4,9 @@
 \name{div_census_2016}
 \alias{div_census_2016}
 \title{Australian Census by Federal Election Division}
-\format{A tibble}
+\format{
+A tibble
+}
 \source{
 Australian Bureau of Statistics, via Hugh Parsonage's Census2016.DataPack R package, with minimal 
 aggregation done by Peter Ellis for convenience.

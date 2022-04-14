@@ -4,7 +4,9 @@
 \name{oz_pendulum_2019}
 \alias{oz_pendulum_2019}
 \title{Australian federal division margins going in to 2019 election}
-\format{A tibble with 151 rows.}
+\format{
+A tibble with 151 rows.
+}
 \source{
 https://www.abc.net.au/news/elections/federal-redistribution-2018/
 }

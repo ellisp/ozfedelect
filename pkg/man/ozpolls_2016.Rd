@@ -4,7 +4,9 @@
 \name{ozpolls_2016}
 \alias{ozpolls_2016}
 \title{Australian Federal Voting Intention Polls for the 2016 Election}
-\format{A tibble with 1,518 rows and 9 variables.}
+\format{
+A tibble with 1,518 rows and 9 variables.
+}
 \source{
 Various polling firms, collected on Wikipedia and scraped by Peter Ellis
 }

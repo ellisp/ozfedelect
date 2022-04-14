@@ -46,7 +46,10 @@ ozpolls_2010 <- tab1 %>%
   parse_dates() %>%
   mutate(start_date = if_else(original_dates == "2007 Election", last_election_date, start_date),
          end_date = if_else(original_dates == "2007 Election", last_election_date, end_date),
-         firm = if_else(original_dates == "2007 Election", "Election result", firm))
+         firm = if_else(original_dates == "2007 Election", "Election result", firm)) %>%
+  mutate(start_date = if_else(original_dates == "2007 election", last_election_date, start_date),
+         end_date = if_else(original_dates == "2007 election", last_election_date, end_date),
+         firm = if_else(original_dates == "2007 election", "Election result", firm))
 
 stopifnot(sum(is.na(ozpolls_2010$start_date)) == 0 )
 
@@ -170,7 +173,8 @@ ozpolls_2019 <- tab %>%
          firm = if_else(original_dates == "2 July 2016 election", "Election result", firm)) %>%
   mutate(firm = gsub("\\[.+\\]", "", firm),
          firm = gsub("\\(.+\\)", "", firm),
-         firm = str_squish(firm))
+         firm = str_squish(firm)) %>%
+  filter(original_dates != "18 May 2019 election")
 
 stopifnot(sum(is.na(ozpolls_2019$start_date)) == 0 )
 

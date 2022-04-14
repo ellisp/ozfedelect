@@ -5,6 +5,12 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2007-11-20,2007-11-22,20–22 Nov 2007,Newspoll,Lib/Nat,First preference,2010,2007-11-21,NA,43
 2007-11-20,2007-11-22,20–22 Nov 2007,Newspoll,Lib/Nat,Two-party-preferred,2010,2007-11-21,NA,48
 2007-11-20,2007-11-22,20–22 Nov 2007,Newspoll,Oth,First preference,2010,2007-11-21,NA,6
+2007-11-24,2007-11-24,2007 election,Election result,ALP,First preference,2010,2007-11-24,NA,43.4
+2007-11-24,2007-11-24,2007 election,Election result,ALP,Two-party-preferred,2010,2007-11-24,NA,52.7
+2007-11-24,2007-11-24,2007 election,Election result,Grn,First preference,2010,2007-11-24,NA,7.8
+2007-11-24,2007-11-24,2007 election,Election result,Lib/Nat,First preference,2010,2007-11-24,NA,42.1
+2007-11-24,2007-11-24,2007 election,Election result,Lib/Nat,Two-party-preferred,2010,2007-11-24,NA,47.3
+2007-11-24,2007-11-24,2007 election,Election result,Oth,First preference,2010,2007-11-24,NA,6.7
 2008-01-18,2008-01-20,18–20 Jan 2008,Newspoll,ALP,First preference,2010,2008-01-19,NA,46
 2008-01-18,2008-01-20,18–20 Jan 2008,Newspoll,ALP,Two-party-preferred,2010,2008-01-19,NA,58
 2008-01-18,2008-01-20,18–20 Jan 2008,Newspoll,Grn,First preference,2010,2008-01-19,NA,12
@@ -6799,16 +6805,3 @@ start_date,end_date,original_dates,firm,party,preference_type,election_year,mid_
 2022-04-06,2022-04-09,6–9 April 2022,Newspoll,ONP,First preference,2022,2022-04-07,Online,3
 2022-04-06,2022-04-09,6–9 April 2022,Newspoll,Oth,First preference,2022,2022-04-07,Online,10
 2022-04-06,2022-04-09,6–9 April 2022,Newspoll,UAP,First preference,2022,2022-04-07,Online,4
-NA,NA,18 May 2019 election,,ALP,First preference,2019,NA,NA,33.34
-NA,NA,18 May 2019 election,,ALP,Two-party-preferred,2019,NA,NA,48.47
-NA,NA,18 May 2019 election,,Grn,First preference,2019,NA,NA,10.4
-NA,NA,18 May 2019 election,,Lib/Nat,First preference,2019,NA,NA,41.44
-NA,NA,18 May 2019 election,,Lib/Nat,Two-party-preferred,2019,NA,NA,51.53
-NA,NA,18 May 2019 election,,ONP,First preference,2019,NA,NA,3.08
-NA,NA,18 May 2019 election,,Oth,First preference,2019,NA,NA,11.74
-NA,NA,2007 election,Newspoll,ALP,First preference,2010,NA,NA,43.4
-NA,NA,2007 election,Newspoll,ALP,Two-party-preferred,2010,NA,NA,52.7
-NA,NA,2007 election,Newspoll,Grn,First preference,2010,NA,NA,7.8
-NA,NA,2007 election,Newspoll,Lib/Nat,First preference,2010,NA,NA,42.1
-NA,NA,2007 election,Newspoll,Lib/Nat,Two-party-preferred,2010,NA,NA,47.3
-NA,NA,2007 election,Newspoll,Oth,First preference,2010,NA,NA,6.7
