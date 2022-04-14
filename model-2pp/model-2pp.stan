@@ -29,26 +29,26 @@ data {
   int y4_days[y4_n];                     
   real y4_se;
   
-  int y5_n;
-  real y5_values[y5_n];       
-  int y5_days[y5_n];                     
-  real y5_se;
-
-  int y6_n;
-  real y6_values[y6_n];       
-  int y6_days[y6_n];                     
-  real y6_se;
+  // int y5_n;
+  // real y5_values[y5_n];       
+  // int y5_days[y5_n];                     
+  // real y5_se;
+  // 
+  // int y6_n;
+  // real y6_values[y6_n];       
+  // int y6_days[y6_n];                     
+  // real y6_se;
   
-  int y7_n;
-  real y7_values[y7_n];       
-  int y7_days[y7_n];                     
-  real y7_se;
+  // int y7_n;
+  // real y7_values[y7_n];       
+  // int y7_days[y7_n];                     
+  // real y7_se;
 
 }
 
 parameters {
   vector[election_days[number_elections]] mu;         // 
-  real d[7];                      // polling effects
+  real d[4];                      // polling effects
   real<lower=0> sigma;            // sd of innovations
 }
 
@@ -75,9 +75,8 @@ model {
   y2_values ~ normal(mu[y2_days]   + d[2],  y2_se * inflator);
   y3_values ~ normal(mu[y3_days]   + d[3],  y3_se * inflator);
   y4_values ~ normal(mu[y4_days]   + d[4],  y4_se * inflator);
-  y5_values ~ normal(mu[y5_days]   + d[5],  y5_se * inflator);
-  y6_values ~ normal(mu[y6_days]   + d[6],  y6_se * inflator);
-  y7_values ~ normal(mu[y7_days]   + d[7],  y7_se * inflator);
+  // y5_values ~ normal(mu[y5_days]   + d[5],  y5_se * inflator);
+  // y6_values ~ normal(mu[y6_days]   + d[6],  y6_se * inflator);
+  // y7_values ~ normal(mu[y7_days]   + d[7],  y7_se * inflator);
   
 }
-

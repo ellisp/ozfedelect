@@ -4,7 +4,7 @@ url = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2010_Australian_fed
 tab_names = c("dates", 
               paste0(c("ALP", "Lib", "Nat", "Grn", "Oth"), "!First preference"), 
               "ALP!Two-party-preferred", "Lib/Nat!Two-party-preferred", 
-              "x1", "x2", "x3")
+              "x1", "x2", "x3", "x4", "x5")
 
 last_election_date = as.Date("2007-11-24")
 election_year = 2010
@@ -46,7 +46,10 @@ ozpolls_2010 <- tab1 %>%
   parse_dates() %>%
   mutate(start_date = if_else(original_dates == "2007 Election", last_election_date, start_date),
          end_date = if_else(original_dates == "2007 Election", last_election_date, end_date),
-         firm = if_else(original_dates == "2007 Election", "Election result", firm))
+         firm = if_else(original_dates == "2007 Election", "Election result", firm)) %>%
+  mutate(start_date = if_else(original_dates == "2007 election", last_election_date, start_date),
+         end_date = if_else(original_dates == "2007 election", last_election_date, end_date),
+         firm = if_else(original_dates == "2007 election", "Election result", firm))
 
 stopifnot(sum(is.na(ozpolls_2010$start_date)) == 0 )
 
@@ -55,7 +58,7 @@ url = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2013_Australian_fed
 tab_names = c("dates", "firm",
               paste0(c("ALP", "Lib/Nat", "Grn", "Oth"), "!First preference"), 
               "ALP!Two-party-preferred", "Lib/Nat!Two-party-preferred", 
-              "x1")
+              "x1", "x2", "x3", "x4", "x5")
 
 last_election_date = as.Date("2010-08-21")
 election_year = 2013
@@ -170,9 +173,64 @@ ozpolls_2019 <- tab %>%
          firm = if_else(original_dates == "2 July 2016 election", "Election result", firm)) %>%
   mutate(firm = gsub("\\[.+\\]", "", firm),
          firm = gsub("\\(.+\\)", "", firm),
-         firm = str_squish(firm))
+         firm = str_squish(firm)) %>%
+  filter(original_dates != "18 May 2019 election")
 
 stopifnot(sum(is.na(ozpolls_2019$start_date)) == 0 )
+
+#-----------------2022-------------
+url <- "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2022_Australian_federal_election"
+# parties in different order from 2013 and 2010:
+tab_names = c("dates", "firm", "survey_type", "sample_size",
+              paste0(c("Lib/Nat", "ALP", "Grn", "ONP", "UAP", "Oth", "Und"), "!First preference"), 
+              "Lib/Nat!Two-party-preferred", "ALP!Two-party-preferred",  
+              "x1", "x2", "x3", "x4", "x5")
+
+tab_names_2 = c("dates", "firm", "survey_type", "sample_size",
+              paste0(c("Lib/Nat", "ALP", "Grn", "ONP", "Oth", "Und"), "!First preference"), 
+              "Lib/Nat!Two-party-preferred", "ALP!Two-party-preferred",  
+              "x1", "x2", "x3", "x4", "x5")
+
+last_election_date = as.Date("2019-05-18")
+election_year = 2022
+
+webpage <- url %>%
+  read_html(encoding = "UTF-8") 
+
+tabs <- webpage %>%
+  html_nodes("table") 
+
+# number below depends on the webpage...
+tab <- html_table(tabs[[2]], fill = TRUE)
+tab2 <- html_table(tabs[[3]], fill = TRUE) 
+
+names(tab) <- tab_names
+names(tab2) <- tab_names_2
+
+tab2$"UAP!First preference" <- ""
+tab2$x1 <- ""
+
+tab <- rbind(tab2, tab)
+
+ozpolls_2022 <- tab %>%
+  as_tibble() %>%
+  mutate(wiki_row = paste0("r", 1:n())) %>%
+  select(-starts_with("x")) %>%
+  gather(variable, intended_vote, -dates, -firm, -wiki_row, -survey_type, -sample_size) %>%
+  separate(variable, sep = "!", into = c("party", "preference_type")) %>%
+  mutate(intended_vote = suppressWarnings(as.numeric(gsub("%", "", intended_vote, fixed = TRUE)))) %>%
+  mutate(election_year = election_year) %>%
+  mutate(sample_size = as.numeric(gsub(",", "", sample_size))) %>%
+  filter(!is.na(intended_vote)) %>%
+  parse_dates() %>%
+  mutate(start_date = if_else(original_dates == "18 May 2019 election", last_election_date, start_date),
+         end_date = if_else(original_dates == "18 May 2019 election", last_election_date, end_date),
+         firm = if_else(original_dates == "18 May 2019 election", "Election result", firm)) %>%
+  mutate(firm = gsub("\\[.+\\]", "", firm),
+         firm = gsub("\\(.+\\)", "", firm),
+         firm = str_squish(firm))
+
+stopifnot(sum(is.na(ozpolls_2022$start_date)) == 0 )
 
 #----------------Combine-----------------
 
@@ -187,8 +245,17 @@ ozpolls <- ozpolls_2010 %>%
   mutate(party = ifelse(party %in% c("Lib", "Nat"), "Lib/Nat", party)) %>%
   group_by_if(function(x){!is.numeric(x) | min(x) > 1000}) %>%
   summarise(intended_vote = sum(intended_vote)) %>%
-  ungroup() %>%
-  select(-wiki_row)
+  rbind(ozpolls_2022) %>%
+    mutate(firm = str_squish(gsub("\\(.+\\)", "", firm)),
+           firm = ifelse(firm == "Morgan", "Roy Morgan", firm),
+           firm = ifelse(firm == "Newspoll-YouGov", "Newspoll", firm),
+           firm = ifelse(firm == "ReachTel", "ReachTEL", firm)) %>%
+    mutate(mid_date = start_date + (as.numeric(end_date) - as.numeric(start_date)) / 2) %>%
+    mutate(party = ifelse(party %in% c("Lib", "Nat"), "Lib/Nat", party)) %>%
+    group_by_if(function(x){!is.numeric(x) | min(x) > 1000}) %>%
+    summarise(intended_vote = sum(intended_vote)) %>%
+    ungroup() %>%
+    select(-wiki_row)
 
 save(ozpolls, file = "pkg/data/ozpolls.rda", compress = "xz")
 
